@@ -42,7 +42,10 @@ EXTERNAL_APPS = (
     'drf_yasg'
 )
 
-LOCAL_APPS = ()
+LOCAL_APPS = (
+    'user',
+    'lottery_events'
+)
 
 INSTALLED_APPS = DEFAULT_APPS + EXTERNAL_APPS + LOCAL_APPS
 
@@ -174,5 +177,5 @@ REST_FRAMEWORK = {
         'common.custom_permissions.custom_authentication_permission.IsValidRequest',
     ),
     'PAGE_SIZE': 10,
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination'
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
 }
