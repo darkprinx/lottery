@@ -14,7 +14,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+CUSTOM_API_TOKEN = 'hKhgiWI65LLRjtkRGDvDKZP5MokBtzLzz7mhUQr0DCgQvzXtFbx9fAxnClClQU6YnZ80v'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -27,17 +27,24 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
-
-INSTALLED_APPS = [
+DEFAULT_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+)
+
+EXTERNAL_APPS = (
+    'rest_framework',
+    'rest_framework_swagger'
+)
+
+LOCAL_APPS = ()
+
+INSTALLED_APPS = DEFAULT_APPS + EXTERNAL_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -69,7 +76,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -79,6 +85,18 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# activate when use external database like postgresQL
+# DATABASES = {
+#     "default": {
+#         "ENGINE": os.environ.get("SQL_ENGINE"),
+#         "NAME": os.environ.get("SQL_DATABASE"),
+#         "USER": os.environ.get("SQL_USER"),
+#         "PASSWORD": os.environ.get("SQL_PASSWORD"),
+#         "HOST": os.environ.get("SQL_HOST"),
+#         "PORT": os.environ.get("SQL_PORT"),
+#     }
+# }
 
 
 # Password validation
@@ -99,7 +117,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -111,7 +128,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -121,3 +137,39 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# logger
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '{levelname}|{asctime}|{module}|{name}|{lineno}|{message}',
+            'style': '{',
+        },
+    },
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'common.custom_permissions.custom_authentication_permission.IsValidRequest',
+    ),
+
+}
