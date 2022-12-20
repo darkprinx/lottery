@@ -9,4 +9,6 @@ static/media/
 /.env
 /.env_test
 /static/styles/*.css
-
+/static
+/staticfiles
+staticfiles
