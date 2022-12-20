@@ -1,0 +1,12 @@
+.idea
+/env
+*.sqlite3
+db.sqlite3-journal
+static/media/
+/mediafiles
+/staticfiles
+*~
+/.env
+/.env_test
+/static/styles/*.css
+
