@@ -19,3 +19,6 @@ class HelloView(APIView):
 class LotteryEventView(viewsets.ModelViewSet):
     queryset = LotteryEvent.objects.all()
     serializer_class = LotteryEventSerializer
+
+
+# class Lottery

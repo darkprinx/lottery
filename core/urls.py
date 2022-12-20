@@ -15,14 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
-from user.router import user_router
-from lottery_events.router import lottery_router
 from core.swagger import schema_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(user_router.urls)),
-    path('api/', include(lottery_router.urls)),
+    path('api/user/', include('user.urls')),
+    path('api/lottery-event/', include('lottery_events.urls')),
 
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),

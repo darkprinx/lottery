@@ -174,7 +174,7 @@ LOGGING = {
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        'common.custom_permissions.custom_authentication_permission.IsValidRequest',
+        # 'common.custom_permissions.custom_authentication_permission.IsValidRequest',
     ),
     'PAGE_SIZE': 10,
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
