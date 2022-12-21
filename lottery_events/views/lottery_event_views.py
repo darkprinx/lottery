@@ -9,10 +9,10 @@ from lottery_events.serializers.lottery_event_serializers import LotteryEventSer
 logger = logging.getLogger(__name__)
 
 
-class HelloView(APIView):
+class PingView(APIView):
 
     def get(self, request):
-        content = {'message': 'Hello, World!'}
+        content = {'message': 'Pong!'}
         return Response(content)
 
 
@@ -20,5 +20,3 @@ class LotteryEventView(viewsets.ModelViewSet):
     queryset = LotteryEvent.objects.all()
     serializer_class = LotteryEventSerializer
 
-
-# class Lottery

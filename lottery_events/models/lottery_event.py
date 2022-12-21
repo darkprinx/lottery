@@ -10,7 +10,7 @@ class LotteryEvent(models.Model):
     status = models.CharField(max_length=32, choices=(('active', 'active'), ('closed', 'closed')), default='active')
     ballot_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     prize_money = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    participants = models.ManyToManyField(User, related_name='participated_lotteries')
+    participants = models.ManyToManyField(User, related_name='participated_lotteries', blank=True, null=True)
 
     class Meta:
         managed = True
