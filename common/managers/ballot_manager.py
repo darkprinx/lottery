@@ -3,7 +3,7 @@ from lottery_events.serializers.ballot_serializer import BallotSerializer
 
 
 class BallotManager:
-    def __int__(self, request=None):
+    def __init__(self, request=None):
         self.request = request
 
     def create_ballot(self, ballot_data):

@@ -2,7 +2,7 @@ from lottery_events.models.lottery_event import LotteryEvent, LotteryEventStatus
 
 
 class LotteryEventManager:
-    def __int__(self, request=None):
+    def __init__(self, request=None):
         self.request = request
 
     def is_active_lottery_event(self, lottery_event_id):
