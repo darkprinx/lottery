@@ -16,3 +16,7 @@ class LotteryEventManager:
 
     def update_lottery_event(self, filter_params, update_params):
         return LotteryEvent.objects.filter(**filter_params).update(**update_params)
+
+    def get_lottery_winner_by_date(self, search_date):
+        return LotteryEvent.objects.filter(created_at=search_date).\
+            select_related('winning_ballot', 'winning_ballot__owner').filter(winning_ballot__isnull=False)

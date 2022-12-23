@@ -5,10 +5,12 @@ from rest_framework import viewsets, generics
 
 from common.helpers.random_number_generator_helper import generate_customized_uuid
 from common.managers.ballot_manager import BallotManager
+from common.managers.lottery_event_manager import LotteryEventManager
 from core.scheduled_tasks import close_active_lottery
 from lottery_events.models import LotteryEvent, LotteryEventStatus
 from lottery_events.serializers.lottery_event_serializers import LotteryEventReadSerializer, \
-    LotteryEventWriteSerializer, RegisterLotteryEventSerializer, PurchaseLotteryBallotSerializer
+    LotteryEventWriteSerializer, RegisterLotteryEventSerializer, PurchaseLotteryBallotSerializer, \
+    LotteryWinnerSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -55,7 +57,6 @@ class RegisterLotteryView(generics.CreateAPIView):
 
 
 class PurchaseLotteryBallotView(generics.CreateAPIView):
-    queryset = LotteryEvent.objects.all()
     serializer_class = PurchaseLotteryBallotSerializer
     ballot_manager = BallotManager()
 
@@ -70,3 +71,14 @@ class PurchaseLotteryBallotView(generics.CreateAPIView):
         }
         ballot = self.ballot_manager.create_ballot(ballot_data)
         return Response(data=ballot)
+
+
+class LotteryWinnerView(generics.ListAPIView):
+    serializer_class = LotteryWinnerSerializer
+    lottery_event_manger = LotteryEventManager()
+
+    def get(self, request):
+        search_date = request.GET.get('search_date')
+        winners = self.lottery_event_manger.get_lottery_winner_by_date(search_date)
+        serialized_data = self.serializer_class(winners, many=True)
+        return Response(data=serialized_data.data)

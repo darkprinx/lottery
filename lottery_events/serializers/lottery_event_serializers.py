@@ -10,7 +10,7 @@ from user.serializers.user_serializers import UserSerializer
 class LotteryEventWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = LotteryEvent
-        fields = ('id', 'title', 'status', 'ballot_price', 'prize_money', 'created_at')
+        fields = ('id', 'title', 'status', 'ballot_price', 'prize_money')
 
 
 class LotteryEventReadSerializer(serializers.ModelSerializer):
@@ -53,3 +53,11 @@ class PurchaseLotteryBallotSerializer(serializers.Serializer):
         if not self.lottery_event_manager.is_user_registered(user_id, lottery_event_id):
             raise serializers.ValidationError({"user_id": "User not registered to the lottery event"})
         return data
+
+
+class LotteryWinnerSerializer(serializers.ModelSerializer):
+    winning_ballot = BallotMinimalSerializer()
+
+    class Meta:
+        model = LotteryEvent
+        fields = ('title', 'prize_money', 'winning_ballot')
