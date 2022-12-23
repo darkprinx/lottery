@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from lottery_events.models.ballot import Ballot
+from lottery_event.models.ballot import Ballot
 
 
 # Create your models here.

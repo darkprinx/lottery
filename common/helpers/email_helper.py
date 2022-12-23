@@ -1,9 +1,5 @@
 from abc import ABC, abstractmethod
 
-from lottery_events.models import LotteryEvent
-import random
-
-
 class BaseEmailService(ABC):
 
     @abstractmethod
@@ -23,3 +19,4 @@ class AWSEmailService:
     def send_email(self, user_info, email_body):
         print(email_body)
         print(F"Email successfully sent to {user_info['email']} via {self.service_provider} service")
+        return True

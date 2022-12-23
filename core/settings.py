@@ -44,7 +44,8 @@ EXTERNAL_APPS = (
 
 LOCAL_APPS = (
     'user',
-    'lottery_events'
+    'lottery_event',
+    'payment'
 )
 
 INSTALLED_APPS = DEFAULT_APPS + EXTERNAL_APPS + LOCAL_APPS

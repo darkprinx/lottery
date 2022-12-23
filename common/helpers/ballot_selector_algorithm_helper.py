@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from lottery_events.models import LotteryEvent
+from lottery_event.models import LotteryEvent
 import random
 
 

@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
                 ('ballot_price', models.DecimalField(decimal_places=2, default=0, max_digits=10)),
                 ('prize_money', models.DecimalField(decimal_places=2, default=0, max_digits=10)),
                 ('participants', models.ManyToManyField(blank=True, null=True, related_name='registered_lotteries', to=settings.AUTH_USER_MODEL)),
-                ('winning_ballot', models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='winning_lottery', to='lottery_events.ballot')),
+                ('winning_ballot', models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='winning_lottery', to='lottery_event.ballot')),
             ],
             options={
                 'db_table': 'lottery_event',

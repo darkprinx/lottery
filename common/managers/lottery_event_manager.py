@@ -1,4 +1,4 @@
-from lottery_events.models.lottery_event import LotteryEvent, LotteryEventStatus
+from lottery_event.models.lottery_event import LotteryEvent, LotteryEventStatus
 
 
 class LotteryEventManager:

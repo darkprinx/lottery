@@ -7,8 +7,8 @@ from common.helpers.random_number_generator_helper import generate_customized_uu
 from common.managers.ballot_manager import BallotManager
 from common.managers.lottery_event_manager import LotteryEventManager
 from core.scheduled_tasks import close_active_lottery
-from lottery_events.models import LotteryEvent, LotteryEventStatus
-from lottery_events.serializers.lottery_event_serializers import LotteryEventReadSerializer, \
+from lottery_event.models import LotteryEvent, LotteryEventStatus
+from lottery_event.serializers.lottery_event_serializers import LotteryEventReadSerializer, \
     LotteryEventWriteSerializer, RegisterLotteryEventSerializer, PurchaseLotteryBallotSerializer, \
     LotteryWinnerSerializer
 
@@ -64,7 +64,6 @@ class PurchaseLotteryBallotView(generics.CreateAPIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        # make payment here
         ballot_data = {
             'ballot_number': generate_customized_uuid(str(serializer.data['lottery_event_id'])),
             'owner': serializer.data['user_id']

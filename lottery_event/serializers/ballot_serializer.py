@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from lottery_events.models.ballot import Ballot
+from lottery_event.models.ballot import Ballot
 from user.serializers.user_serializers import UserNameEmailSerializer
 
 

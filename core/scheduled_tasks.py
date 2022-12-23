@@ -2,8 +2,8 @@ from common.helpers.email_helper import AWSEmailService
 from common.managers.lottery_event_manager import LotteryEventManager
 from common.managers.ballot_manager import BallotManager
 from common.helpers.ballot_selector_algorithm_helper import NaiveBallotSelectorStrategy
-from lottery_events.models import LotteryEventStatus
-from lottery_events.serializers.ballot_serializer import BallotMinimalSerializer
+from lottery_event.models import LotteryEventStatus
+from lottery_event.serializers.ballot_serializer import BallotMinimalSerializer
 
 
 def close_active_lottery():

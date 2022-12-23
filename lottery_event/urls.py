@@ -1,8 +1,8 @@
 from django.urls import path
-from lottery_events.views.lottery_event_views import PingView, RegisterLotteryView, PurchaseLotteryBallotView, \
+from lottery_event.views.lottery_event_views import PingView, RegisterLotteryView, PurchaseLotteryBallotView, \
     LotteryWinnerView
 from rest_framework import routers
-from lottery_events.views.lottery_event_views import LotteryEventView
+from lottery_event.views.lottery_event_views import LotteryEventView
 
 lottery_router = routers.DefaultRouter()
 lottery_router.register('', LotteryEventView)
