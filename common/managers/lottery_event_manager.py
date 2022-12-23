@@ -5,6 +5,9 @@ class LotteryEventManager:
     def __init__(self, request=None):
         self.request = request
 
+    def get_lottery_event_by_id(self, lottery_event_id):
+        return LotteryEvent.objects.filter(id=lottery_event_id).first()
+
     def is_active_lottery_event(self, lottery_event_id):
         return LotteryEvent.objects.filter(pk=lottery_event_id, status=LotteryEventStatus.ACTIVE).exists()
 

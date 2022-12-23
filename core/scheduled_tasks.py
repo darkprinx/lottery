@@ -21,8 +21,6 @@ def close_active_lottery():
             ballot = ballot_manager.get_ballot_by_id(winning_ballot_id)
             serialized_ballot = BallotMinimalSerializer(ballot).data
             lottery_event.winning_ballot = ballot
-            lottery_event.status = LotteryEventStatus.CLOSED
-            lottery_event.save()
 
             # todo: make email template folder
             email_body = f"Congrats! you have won a lottery! Details are shared bellow:\n" \
@@ -31,4 +29,5 @@ def close_active_lottery():
                          f"Prize Money: {lottery_event.prize_money}"
 
             email_helper.send_email(user_info=serialized_ballot['owner'], email_body=email_body)
-
+        lottery_event.status = LotteryEventStatus.CLOSED
+        lottery_event.save()

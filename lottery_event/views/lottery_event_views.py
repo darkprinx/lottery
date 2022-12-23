@@ -21,9 +21,11 @@ class PingView(APIView):
         content = {'message': 'Pong!'}
         return Response(content)
 
-    def post(self, request):
+
+class CloseLotteryView(APIView):
+    def get(self, request):
         close_active_lottery()
-        return Response({})
+        return Response(status=200)
 
 
 class LotteryEventView(viewsets.ModelViewSet):
@@ -37,21 +39,16 @@ class LotteryEventView(viewsets.ModelViewSet):
 
 
 class RegisterLotteryView(generics.CreateAPIView):
-    queryset = LotteryEvent.objects.all()
     serializer_class = RegisterLotteryEventSerializer
+    lottery_event_manager = LotteryEventManager()
 
-    def post(self, request, pk):
+    def post(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         user_id = serializer.data['user_id']
+        lottery_event_id = serializer.data['lottery_event_id']
 
-        lottery_object = self.get_object()
-        if lottery_object.status == LotteryEventStatus.CLOSED:
-            return Response(data={'msg': "Sorry! The lottery event has been closed"}, status=400)
-
-        if lottery_object.participants.filter(id=user_id).exists():
-            return Response(data={'msg': "User already registered"}, status=400)
-
+        lottery_object = self.lottery_event_manager.get_lottery_event_by_id(lottery_event_id)
         lottery_object.participants.add(user_id)
         return Response(data={'msg': "Successfully registered"}, status=201)
 
