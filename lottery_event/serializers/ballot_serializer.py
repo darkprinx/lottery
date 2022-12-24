@@ -11,6 +11,7 @@ class BallotSerializer(serializers.ModelSerializer):
 
 class BallotMinimalSerializer(serializers.ModelSerializer):
     owner = UserNameEmailSerializer()
+
     class Meta:
         model = Ballot
         fields = ('ballot_number', 'owner')

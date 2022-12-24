@@ -47,5 +47,6 @@ class PaymentFactory:
 
     def get_payment_service(self, payment_service_type):
         if payment_service_type not in self.payment_services:
-            raise ValidationError(f"{payment_service_type} is not implemented or attached to the system")
+            raise ValidationError(f"{payment_service_type} is not implemented or attached to the system. Available "
+                                  f"services are {list(self.payment_services.keys())}")
         return self.payment_services[payment_service_type]
