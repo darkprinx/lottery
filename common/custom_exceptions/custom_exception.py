@@ -11,7 +11,8 @@ def custom_exception_handler(exc, context):
         'ValidationError': _handle_generic_error,
         'Http404': _handle_generic_error,
         'PermissionDenied': _handle_generic_error,
-        'NotAuthenticated': _handle_generic_error
+        'AuthenticationFailed': _handle_generic_error,
+        'NotAuthenticated': _handle_generic_error,
     }
     response = exception_handler(exc, context)
 
