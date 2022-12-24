@@ -19,8 +19,8 @@ from core.swagger import schema_view
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('api/user/', include('user.urls')),
-    path('api/lottery-event/', include('lottery_event.urls')),
+    path('api/users/', include('user.urls')),
+    path('api/lottery-events/', include('lottery_event.urls')),
     path('api/payments/', include('payment.urls')),
 
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

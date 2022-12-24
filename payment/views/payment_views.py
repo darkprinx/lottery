@@ -2,11 +2,13 @@ from rest_framework import generics
 from rest_framework.response import Response
 
 from common.helpers.payment_helper import PaymentFactory
+from payment.models import TransactionHistory
 from payment.serializers.payment_serializer import TransactionHistorySerializer
 
 
 class MakePaymentView(generics.CreateAPIView):
     serializer_class = TransactionHistorySerializer
+    queryset = TransactionHistory.objects.all()
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
