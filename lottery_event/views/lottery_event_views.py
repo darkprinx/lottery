@@ -6,11 +6,13 @@ from rest_framework import viewsets, generics
 from common.helpers.random_number_generator_helper import generate_customized_uuid
 from common.managers.ballot_manager import BallotManager
 from common.managers.lottery_event_manager import LotteryEventManager
+from common.managers.user_manager import UserManager
 from core.scheduled_tasks import close_active_lottery
-from lottery_event.models import LotteryEvent, LotteryEventStatus
+from lottery_event.models import LotteryEvent
 from lottery_event.serializers.lottery_event_serializers import LotteryEventReadSerializer, \
     LotteryEventWriteSerializer, RegisterLotteryEventSerializer, PurchaseLotteryBallotSerializer, \
     LotteryWinnerSerializer
+from user.serializers.user_serializers import UserSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -97,3 +99,15 @@ class LotteryWinnerView(generics.ListAPIView):
         winners = self.lottery_event_manger.get_lottery_winner_by_date(search_date)
         serialized_data = self.serializer_class(winners, many=True)
         return Response(data=serialized_data.data, status=200)
+
+
+class LotteryParticipantView(APIView):
+    user_manager = UserManager()
+
+    def get(self, request, pk):
+        """
+        ## User can watch participants list of a particular lottery event via this endpoint.
+        """
+        participants = self.user_manager.get_participants_of_lottery_event(lottery_event_id=pk)
+        return Response(UserSerializer(participants, many=True).data)
+

@@ -14,12 +14,11 @@ class LotteryEventWriteSerializer(serializers.ModelSerializer):
 
 
 class LotteryEventReadSerializer(serializers.ModelSerializer):
-    participants = UserSerializer(many=True)
     winning_ballot = BallotMinimalSerializer()
 
     class Meta:
         model = LotteryEvent
-        fields = '__all__'
+        fields = ('id', 'title', 'status', 'ballot_price', 'prize_money', 'winning_ballot')
 
 
 class RegisterLotteryEventSerializer(serializers.Serializer):

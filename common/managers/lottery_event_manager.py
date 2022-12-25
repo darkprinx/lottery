@@ -1,6 +1,5 @@
 from lottery_event.models.lottery_event import LotteryEvent, LotteryEventStatus
 
-
 class LotteryEventManager:
     def __init__(self, request=None):
         self.request = request
