@@ -22,6 +22,7 @@ class MobilePaymentService:
     def make_payment(self, *args, **kwargs):
         print(F"Payment made via mobile payment service")
         return {
+            'payment_via': 'mobile_payment',
             'transaction_id': uuid.uuid4().hex,
             'status': 'successful'
         }
@@ -34,6 +35,7 @@ class CardPaymentService:
     def make_payment(self, *args, **kwargs):
         print(F"Payment made via card payment service")
         return {
+            'payment_via': 'card_payment',
             'transaction_id': uuid.uuid4().hex,
             'status': 'successful'
         }
