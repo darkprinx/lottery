@@ -4,7 +4,6 @@ from common.managers.lottery_event_manager import LotteryEventManager
 from lottery_event.models.lottery_event import LotteryEvent
 from common.managers.user_manager import UserManager
 from lottery_event.serializers.ballot_serializer import BallotMinimalSerializer
-from user.serializers.user_serializers import UserSerializer
 
 
 class LotteryEventWriteSerializer(serializers.ModelSerializer):
