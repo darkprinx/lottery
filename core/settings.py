@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 
+import pybreaker
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 CUSTOM_API_TOKEN = os.environ.get("CUSTOM_API_TOKEN")
@@ -49,6 +51,8 @@ LOCAL_APPS = (
 )
 
 INSTALLED_APPS = DEFAULT_APPS + EXTERNAL_APPS + LOCAL_APPS
+
+breaker = pybreaker.CircuitBreaker(fail_max=4, reset_timeout=5)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

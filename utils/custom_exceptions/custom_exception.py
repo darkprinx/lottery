@@ -35,7 +35,7 @@ def _handle_generic_error(exc, context, response):
 def _handle_other_errors_as_500(exc, context, response):
     if not response:
         return Response(data={
-            'error': "Something went wrong"
+            'error': str(exc)
         }, status=500)
 
     response.data = {

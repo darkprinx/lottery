@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets, generics
 
+from utils.helpers.circuit_breaker_dummy_apis import send_message
 from utils.helpers.random_number_generator_helper import generate_customized_uuid
 from utils.managers.ballot_manager import BallotManager
 from utils.managers.lottery_event_manager import LotteryEventManager
@@ -22,7 +23,7 @@ class PingView(APIView):
     ## This is to check application health with a ping and getting a response with pong!
     """
     def get(self, request):
-        content = {'message': 'Pong!'}
+        content = {'message': 'Pong!', 'data': send_message()}
         return Response(content)
 
 
