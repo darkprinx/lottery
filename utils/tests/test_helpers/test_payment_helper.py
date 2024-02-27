@@ -1,7 +1,7 @@
 from unittest import mock
 from django.test import TestCase
 
-from common.helpers.payment_helper import MobilePaymentService
+from utils.helpers.payment_helper import MobilePaymentService
 
 
 class TestMobilePaymentService(TestCase):

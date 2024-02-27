@@ -3,10 +3,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets, generics
 
-from common.helpers.random_number_generator_helper import generate_customized_uuid
-from common.managers.ballot_manager import BallotManager
-from common.managers.lottery_event_manager import LotteryEventManager
-from common.managers.user_manager import UserManager
+from utils.helpers.random_number_generator_helper import generate_customized_uuid
+from utils.managers.ballot_manager import BallotManager
+from utils.managers.lottery_event_manager import LotteryEventManager
+from utils.managers.user_manager import UserManager
 from core.scheduled_tasks import close_active_lottery
 from lottery_event.models import LotteryEvent
 from lottery_event.serializers.lottery_event_serializers import LotteryEventReadSerializer, \

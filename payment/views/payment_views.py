@@ -3,7 +3,7 @@ import logging
 from rest_framework import generics
 from rest_framework.response import Response
 
-from common.helpers.payment_helper import PaymentFactory
+from utils.helpers.payment_helper import PaymentFactory
 from payment.models import TransactionHistory
 from payment.serializers.payment_serializer import TransactionHistorySerializer
 

@@ -1,7 +1,7 @@
 from model_bakery import baker
 from django.test import TestCase
 
-from common.managers.lottery_event_manager import LotteryEventManager
+from utils.managers.lottery_event_manager import LotteryEventManager
 from lottery_event.models import LotteryEvent
 
 

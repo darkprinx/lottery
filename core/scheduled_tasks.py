@@ -1,8 +1,8 @@
-from common.email_templates.lottery_templates import LotteryEmailTemplate
-from common.helpers.email_helper import AWSEmailService
-from common.managers.lottery_event_manager import LotteryEventManager
-from common.managers.ballot_manager import BallotManager
-from common.helpers.ballot_selector_algorithm_helper import NaiveBallotSelectorStrategy
+from utils.email_templates.lottery_templates import LotteryEmailTemplate
+from utils.helpers.email_helper import AWSEmailService
+from utils.managers.lottery_event_manager import LotteryEventManager
+from utils.managers.ballot_manager import BallotManager
+from utils.helpers.ballot_selector_algorithm_helper import NaiveBallotSelectorStrategy
 from lottery_event.models import LotteryEventStatus
 from lottery_event.serializers.ballot_serializer import BallotMinimalSerializer
 import logging

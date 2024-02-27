@@ -1,5 +1,6 @@
 from lottery_event.models.lottery_event import LotteryEvent, LotteryEventStatus
 
+
 class LotteryEventManager:
     def __init__(self, request=None):
         self.request = request
@@ -20,5 +21,5 @@ class LotteryEventManager:
         return LotteryEvent.objects.filter(**filter_params).update(**update_params)
 
     def get_lottery_winner_by_date(self, search_date):
-        return LotteryEvent.objects.filter(created_at=search_date).\
+        return LotteryEvent.objects.filter(created_at=search_date). \
             select_related('winning_ballot', 'winning_ballot__owner').filter(winning_ballot__isnull=False)

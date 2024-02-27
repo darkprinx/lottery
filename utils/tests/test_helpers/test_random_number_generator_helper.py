@@ -1,6 +1,6 @@
 from unittest import mock
 from django.test import TestCase
-from common.helpers.random_number_generator_helper import generate_customized_uuid
+from utils.helpers.random_number_generator_helper import generate_customized_uuid
 
 
 class TestRandomNumberGenerator(TestCase):
