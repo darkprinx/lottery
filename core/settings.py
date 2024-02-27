@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-#i3t_@coi-6pnmbmbkm-6he2ee%b5+u9!t6=&#t)$ies7@!+&_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1"]
+ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1", "*"]
 
 # Application definition
 DEFAULT_APPS = (
@@ -174,10 +174,10 @@ LOGGING = {
 }
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'common.custom_permissions.custom_authentication_permission.IsValidRequest',
-    ),
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'utils.custom_permissions.custom_authentication_permission.IsValidRequest',
+    # ),
     'PAGE_SIZE': 10,
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'EXCEPTION_HANDLER': 'common.custom_exceptions.custom_exception.custom_exception_handler'
+    'EXCEPTION_HANDLER': 'utils.custom_exceptions.custom_exception.custom_exception_handler'
 }
