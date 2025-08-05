@@ -26,6 +26,7 @@ Go to the project root folder **lottery** and run the command
 docker-compose up --build
 ```
 
+
 The app will run on **0.0.0.0:8081**
 
 
