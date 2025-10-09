@@ -2,6 +2,7 @@ name: Tests
 
 on:
   push:
+    branches: [ master ]
   workflow_dispatch:
 
 jobs:
@@ -27,7 +28,7 @@ jobs:
         run: |
           pytest -q
 
-  deployement:
+  deploy:
     runs-on: ubuntu-latest
     needs: test # can have multiple jobs like [test, xyz]
     steps:
