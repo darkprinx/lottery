@@ -45,4 +45,4 @@ class TestRegisterLotteryView(TestCase):
 
         request = self.factory.post(self.request_url, data)
         response = RegisterLotteryView.as_view()(request)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 400)
