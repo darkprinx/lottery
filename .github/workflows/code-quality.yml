@@ -27,8 +27,7 @@ jobs:
 
       - name: Ruff (lint)
         run: |
-          # Use GitHub annotation-friendly output
-          ruff check . --format=github
+          ruff check .
 
       - name: Flake8
         run: |
