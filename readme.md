@@ -36,4 +36,18 @@ The app will run on **0.0.0.0:8081**
 
 
 
+## Development: Pre-commit hooks
+To enable automatic code quality checks locally before each commit:
+
+1. Install pre-commit (once):
+   - pip install pre-commit
+2. Install the git hooks in this repo (once):
+   - pre-commit install
+3. Run on all files (optional, to check/fix current tree):
+   - pre-commit run --all-files
+
+The configured hooks will run ruff, black, flake8, and basic file hygiene checks.
+
+
+
 
