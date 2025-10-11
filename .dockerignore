@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+.python-version
+.venv/
+venv/
+
+# Django
+staticfiles/
+media/
+
+# Tests and tooling
+.pytest_cache/
+.mypy_cache/
+coverage*
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile*
+.dockerignore
+
+# OS
+.DS_Store
+
+# Editor/IDE
+.vscode/
+.idea/
+
+# Node (if any front-end bits exist)
+node_modules/
+
+# Databases (avoid baking local data into images)
+db.sqlite3
