@@ -24,7 +24,7 @@ jobs:
       - name: Install ruff and pre-commit
         run: |
           python -m pip install --upgrade pip
-          pip install ruff pre-commit
+          pip install ruff pre-commit safety
 
       - name: Ruff (lint)
         run: |
@@ -35,10 +35,10 @@ jobs:
           pre-commit run --all-files --show-diff-on-failure --color always
 
       - name: Security scan with Bandit
-        uses: pyupio/bandit-action@master
+        uses: PyCQA/bandit-action@v1
 
-      - name: Dependency audit
-        uses: pypa/gh-action-pip-audit@v1
+      - name: Audit dependencies with pip-audit
+        uses: pypa/gh-action-pip-audit@v1.1.0
 
   test:
     runs-on: ubuntu-latest
