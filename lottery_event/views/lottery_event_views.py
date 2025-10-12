@@ -10,9 +10,13 @@ from utils.managers.lottery_event_manager import LotteryEventManager
 from utils.managers.user_manager import UserManager
 from core.scheduled_tasks import close_active_lottery
 from lottery_event.models import LotteryEvent
-from lottery_event.serializers.lottery_event_serializers import LotteryEventReadSerializer, \
-    LotteryEventWriteSerializer, RegisterLotteryEventSerializer, PurchaseLotteryBallotSerializer, \
-    LotteryWinnerSerializer
+from lottery_event.serializers.lottery_event_serializers import (
+    LotteryEventReadSerializer,
+    LotteryEventWriteSerializer,
+    RegisterLotteryEventSerializer,
+    PurchaseLotteryBallotSerializer,
+    LotteryWinnerSerializer,
+)
 from user.serializers.user_serializers import UserSerializer
 
 logger = logging.getLogger(__name__)
@@ -22,8 +26,9 @@ class PingView(APIView):
     """
     ## This is to check application health with a ping and getting a response with pong!
     """
+
     def get(self, request):
-        content = {'message': 'Pong!', 'data': send_message()}
+        content = {"message": "Pong!", "data": send_message()}
         return Response(content)
 
 
@@ -31,6 +36,7 @@ class CloseLotteryView(APIView):
     """
     ## User can call this endpoint to close any currently active lottery and select winner for it.
     """
+
     def get(self, request):
         close_active_lottery()
         return Response(status=200)
@@ -41,6 +47,7 @@ class LotteryEventView(viewsets.ModelViewSet):
     ## This view contains a set of all the basic CRUD operation endpoints related to Lottery Event.
     ## user can get list, create, update, delete lottery events.
     """
+
     queryset = LotteryEvent.objects.all()
     serializer_class = LotteryEventReadSerializer
 
@@ -60,12 +67,14 @@ class RegisterLotteryView(generics.CreateAPIView):
         """
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user_id = serializer.data['user_id']
-        lottery_event_id = serializer.data['lottery_event_id']
+        user_id = serializer.data["user_id"]
+        lottery_event_id = serializer.data["lottery_event_id"]
 
-        lottery_object = self.lottery_event_manager.get_lottery_event_by_id(lottery_event_id)
+        lottery_object = self.lottery_event_manager.get_lottery_event_by_id(
+            lottery_event_id
+        )
         lottery_object.participants.add(user_id)
-        return Response(data={'msg': "Successfully registered"}, status=200)
+        return Response(data={"msg": "Successfully registered"}, status=200)
 
 
 class PurchaseLotteryBallotView(generics.CreateAPIView):
@@ -81,8 +90,10 @@ class PurchaseLotteryBallotView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
 
         ballot_data = {
-            'ballot_number': generate_customized_uuid(str(serializer.data['lottery_event_id'])),
-            'owner': serializer.data['user_id']
+            "ballot_number": generate_customized_uuid(
+                str(serializer.data["lottery_event_id"])
+            ),
+            "owner": serializer.data["user_id"],
         }
         ballot = self.ballot_manager.create_ballot(ballot_data)
         return Response(data=ballot, status=200)
@@ -96,7 +107,7 @@ class LotteryWinnerView(generics.ListAPIView):
         """
         ## User can watch lottery event winning ballot and winner for a particular date via this endpoint.
         """
-        search_date = request.GET.get('search_date')
+        search_date = request.GET.get("search_date")
         winners = self.lottery_event_manger.get_lottery_winner_by_date(search_date)
         serialized_data = self.serializer_class(winners, many=True)
         return Response(data=serialized_data.data, status=200)
@@ -109,6 +120,7 @@ class LotteryParticipantView(APIView):
         """
         ## User can watch participants list of a particular lottery event via this endpoint.
         """
-        participants = self.user_manager.get_participants_of_lottery_event(lottery_event_id=pk)
+        participants = self.user_manager.get_participants_of_lottery_event(
+            lottery_event_id=pk
+        )
         return Response(UserSerializer(participants, many=True).data)
-

@@ -6,7 +6,7 @@ from user.serializers.user_serializers import UserNameEmailSerializer
 class BallotSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ballot
-        fields = '__all__'
+        fields = "__all__"
 
 
 class BallotMinimalSerializer(serializers.ModelSerializer):
@@ -14,4 +14,4 @@ class BallotMinimalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ballot
-        fields = ('ballot_number', 'owner')
+        fields = ("ballot_number", "owner")

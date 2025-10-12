@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-class BaseEmailService(ABC):
 
+class BaseEmailService(ABC):
     @abstractmethod
     def send_email(self, *args, **kwargs):
         pass
@@ -18,5 +18,7 @@ class AWSEmailService:
 
     def send_email(self, user_info, email_body):
         print(email_body)
-        print(F"Email successfully sent to {user_info['email']} via {self.service_provider} service")
+        print(
+            f"Email successfully sent to {user_info['email']} via {self.service_provider} service"
+        )
         return True

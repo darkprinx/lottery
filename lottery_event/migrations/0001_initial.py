@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -15,33 +14,86 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Ballot',
+            name="Ballot",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('bought_at', models.DateTimeField(auto_now_add=True)),
-                ('ballot_number', models.CharField(max_length=128)),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='purchased_ballots', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("bought_at", models.DateTimeField(auto_now_add=True)),
+                ("ballot_number", models.CharField(max_length=128)),
+                (
+                    "owner",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="purchased_ballots",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'db_table': 'ballot',
-                'managed': True,
+                "db_table": "ballot",
+                "managed": True,
             },
         ),
         migrations.CreateModel(
-            name='LotteryEvent',
+            name="LotteryEvent",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateField(auto_now=True, db_index=True)),
-                ('title', models.CharField(max_length=64)),
-                ('status', models.CharField(choices=[('active', 'active'), ('closed', 'closed')], default='active', max_length=32)),
-                ('ballot_price', models.DecimalField(decimal_places=2, default=0, max_digits=10)),
-                ('prize_money', models.DecimalField(decimal_places=2, default=0, max_digits=10)),
-                ('participants', models.ManyToManyField(blank=True, null=True, related_name='registered_lotteries', to=settings.AUTH_USER_MODEL)),
-                ('winning_ballot', models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='winning_lottery', to='lottery_event.ballot')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateField(auto_now=True, db_index=True)),
+                ("title", models.CharField(max_length=64)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[("active", "active"), ("closed", "closed")],
+                        default="active",
+                        max_length=32,
+                    ),
+                ),
+                (
+                    "ballot_price",
+                    models.DecimalField(decimal_places=2, default=0, max_digits=10),
+                ),
+                (
+                    "prize_money",
+                    models.DecimalField(decimal_places=2, default=0, max_digits=10),
+                ),
+                (
+                    "participants",
+                    models.ManyToManyField(
+                        blank=True,
+                        null=True,
+                        related_name="registered_lotteries",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "winning_ballot",
+                    models.OneToOneField(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="winning_lottery",
+                        to="lottery_event.ballot",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'lottery_event',
-                'managed': True,
+                "db_table": "lottery_event",
+                "managed": True,
             },
         ),
     ]

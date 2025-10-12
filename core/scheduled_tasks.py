@@ -28,8 +28,12 @@ def close_active_lottery():
                     serialized_ballot = BallotMinimalSerializer(ballot).data
                     lottery_event.winning_ballot = ballot
 
-                    email_body = LotteryEmailTemplate().lottery_win_template_1(lottery_event, ballot)
-                    email_helper.send_email(user_info=serialized_ballot['owner'], email_body=email_body)
+                    email_body = LotteryEmailTemplate().lottery_win_template_1(
+                        lottery_event, ballot
+                    )
+                    email_helper.send_email(
+                        user_info=serialized_ballot["owner"], email_body=email_body
+                    )
 
                 lottery_event.status = LotteryEventStatus.CLOSED
                 lottery_event.save()

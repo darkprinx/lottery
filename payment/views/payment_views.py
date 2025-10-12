@@ -21,7 +21,9 @@ class MakePaymentView(generics.CreateAPIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        payment_service = PaymentFactory().get_payment_service(serializer.data['payment_via'])
+        payment_service = PaymentFactory().get_payment_service(
+            serializer.data["payment_via"]
+        )
         response = payment_service.make_payment(serializer.data)
 
         request.data.update(response)
@@ -29,5 +31,3 @@ class MakePaymentView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(data=serializer.data)
-
-

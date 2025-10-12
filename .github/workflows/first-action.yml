@@ -18,15 +18,15 @@ jobs:
     steps:
       - name: Run a one-line script
         run: echo Hello, world!
-        
+
       - name: Run a multi-line script
         run: |
           echo Add other actions to build,
-          echo test, and deploy your project.  
-      
+          echo test, and deploy your project.
+
       - name: Checkout Repository  # download the repo in run server
         uses: actions/checkout@v3
-      
+
       - name: Setup python
         uses: actions/setup-python@v5
         with:
@@ -44,5 +44,3 @@ jobs:
       - name: Run Test
         run: |
           python manage.py test
-
-      

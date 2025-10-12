@@ -4,7 +4,6 @@ from rest_framework.serializers import ValidationError
 
 
 class BasePaymentService(ABC):
-
     @abstractmethod
     def make_payment(self, *args, **kwargs):
         pass
@@ -20,11 +19,11 @@ class MobilePaymentService:
         pass
 
     def make_payment(self, *args, **kwargs):
-        print(F"Payment made via mobile payment service")
+        print("Payment made via mobile payment service")
         return {
-            'payment_via': 'mobile_payment',
-            'transaction_id': uuid.uuid4().hex,
-            'status': 'successful'
+            "payment_via": "mobile_payment",
+            "transaction_id": uuid.uuid4().hex,
+            "status": "successful",
         }
 
 
@@ -33,23 +32,26 @@ class CardPaymentService:
         pass
 
     def make_payment(self, *args, **kwargs):
-        print(F"Payment made via card payment service")
+        print("Payment made via card payment service")
         return {
-            'payment_via': 'card_payment',
-            'transaction_id': uuid.uuid4().hex,
-            'status': 'successful'
+            "payment_via": "card_payment",
+            "transaction_id": uuid.uuid4().hex,
+            "status": "successful",
         }
 
 
 class PaymentFactory:
     payment_services = {
-        'mobile_payment': MobilePaymentService(),
-        'card_payment': CardPaymentService()
+        "mobile_payment": MobilePaymentService(),
+        "card_payment": CardPaymentService(),
     }
 
     def get_payment_service(self, payment_service_type):
         if payment_service_type not in self.payment_services:
-            raise ValidationError({
-                "payment_via": f"{payment_service_type} is not implemented or attached to the system. Available "
-                f"services are {list(self.payment_services.keys())}"})
+            raise ValidationError(
+                {
+                    "payment_via": f"{payment_service_type} is not implemented or attached to the system. Available "
+                    f"services are {list(self.payment_services.keys())}"
+                }
+            )
         return self.payment_services[payment_service_type]

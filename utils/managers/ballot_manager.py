@@ -13,6 +13,4 @@ class BallotManager:
         return ballot_serializer.data
 
     def get_ballot_by_id(self, ballot_id):
-        return Ballot.objects.select_related('owner').filter(id=ballot_id).first()
-
-
+        return Ballot.objects.select_related("owner").filter(id=ballot_id).first()

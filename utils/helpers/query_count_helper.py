@@ -8,5 +8,5 @@ def query_count_all() -> (int, float):
     for connection in all_connections:
         total_query += len(connection.queries)
         for query in connection.queries:
-            time += float(query['time'])
+            time += float(query["time"])
     return total_query, time

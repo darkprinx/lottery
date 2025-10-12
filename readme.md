@@ -32,7 +32,7 @@ The app will run on **0.0.0.0:8081**
 
 -------------
 
-### To get the full description of the project please have a look at the **readme-doc.pdf**. 
+### To get the full description of the project please have a look at the **readme-doc.pdf**.
 
 
 
@@ -47,7 +47,3 @@ To enable automatic code quality checks locally before each commit:
    - pre-commit run --all-files
 
 The configured hooks will run ruff, black, flake8, and basic file hygiene checks.
-
-
-
-

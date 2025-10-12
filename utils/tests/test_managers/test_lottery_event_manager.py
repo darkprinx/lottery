@@ -6,9 +6,8 @@ from lottery_event.models import LotteryEvent
 
 
 class TestLotteryEventManager(TestCase):
-
     def setUp(self) -> None:
-        self.lottery_event1 = baker.make(LotteryEvent, id=1, status='active')
+        self.lottery_event1 = baker.make(LotteryEvent, id=1, status="active")
         self.lottery_event_manager = LotteryEventManager()
 
     def test_get_lottery_event_by_id(self):
@@ -23,5 +22,5 @@ class TestLotteryEventManager(TestCase):
 
     def test_is_active_lottery_event(self):
         actual = self.lottery_event_manager.is_active_lottery_event(lottery_event_id=1)
-        expected = self.lottery_event1.status == 'active'
+        expected = self.lottery_event1.status == "active"
         self.assertEqual(actual, expected)
