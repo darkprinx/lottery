@@ -19,6 +19,9 @@ def test_generate_customized_uuid_without_prefix(monkeypatch):
 
 
 def test_generate_customized_uuid_is_random():
-    # Very small probability of collision; this just ensures it usually differs from a specific fixed string
+    """
+    Very small probability of collision; this just ensures it usually
+    differs from a specific fixed string
+    """
     not_expected = "3d84jx83ks9ss98lk92jasrcmsis93"
     assert generate_customized_uuid() != not_expected

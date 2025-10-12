@@ -9,8 +9,10 @@ class BasePaymentService(ABC):
         pass
 
 
-"""This is defined assuming that it is attached to a real life payment service. For simplicity just abstract and dummy
-concreate class is implemented with dummy methods.
+"""
+Assumes attachment to a real payment service.
+For simplicity, only an abstract base and a dummy concrete class
+are implemented with placeholder methods.
 """
 
 
@@ -50,8 +52,11 @@ class PaymentFactory:
         if payment_service_type not in self.payment_services:
             raise ValidationError(
                 {
-                    "payment_via": f"{payment_service_type} is not implemented or attached to the system. Available "
-                    f"services are {list(self.payment_services.keys())}"
+                    "payment_via": (
+                        f"{payment_service_type} is not implemented or attached to the "
+                        f"system. Available services are "
+                        f"{list(self.payment_services.keys())}"
+                    )
                 }
             )
         return self.payment_services[payment_service_type]

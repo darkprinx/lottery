@@ -16,7 +16,7 @@ class MakePaymentView(generics.CreateAPIView):
 
     def post(self, request):
         """
-        ## User is expected to use this endpoint to make payment before purchasing ballot.
+        ## Use this endpoint to make payment before purchasing a ballot.
         """
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)

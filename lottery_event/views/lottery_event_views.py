@@ -24,7 +24,8 @@ logger = logging.getLogger(__name__)
 
 class PingView(APIView):
     """
-    ## This is to check application health with a ping and getting a response with pong!
+    ## This checks application health with a ping
+    ## and returns a response with pong.
     """
 
     def get(self, request):
@@ -34,7 +35,8 @@ class PingView(APIView):
 
 class CloseLotteryView(APIView):
     """
-    ## User can call this endpoint to close any currently active lottery and select winner for it.
+    ## Close any currently active lottery and
+    ## select a winner for it.
     """
 
     def get(self, request):
@@ -44,8 +46,8 @@ class CloseLotteryView(APIView):
 
 class LotteryEventView(viewsets.ModelViewSet):
     """
-    ## This view contains a set of all the basic CRUD operation endpoints related to Lottery Event.
-    ## user can get list, create, update, delete lottery events.
+    ## CRUD endpoints for Lottery Events:
+    ## list, create, update, and delete.
     """
 
     queryset = LotteryEvent.objects.all()
@@ -83,8 +85,8 @@ class PurchaseLotteryBallotView(generics.CreateAPIView):
 
     def post(self, request):
         """
-        ## User can purchase ballot for a particular lottery event via this endpoint.
-        ## Before calling this endpoint user is expected to have a successful response from api/payments/make-payment endpoint.
+        ## Purchase a ballot for a particular lottery event.
+        ## First, call api/payments/make-payment to ensure payment succeeds.
         """
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -105,7 +107,8 @@ class LotteryWinnerView(generics.ListAPIView):
 
     def get(self, request):
         """
-        ## User can watch lottery event winning ballot and winner for a particular date via this endpoint.
+        ## View the winning ballot and winner for a lottery event on a
+        ## particular date.
         """
         search_date = request.GET.get("search_date")
         winners = self.lottery_event_manger.get_lottery_winner_by_date(search_date)
@@ -118,7 +121,7 @@ class LotteryParticipantView(APIView):
 
     def get(self, request, pk):
         """
-        ## User can watch participants list of a particular lottery event via this endpoint.
+        ## View the participants list of a particular lottery event.
         """
         participants = self.user_manager.get_participants_of_lottery_event(
             lottery_event_id=pk

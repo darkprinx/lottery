@@ -7,8 +7,10 @@ class BaseEmailService(ABC):
         pass
 
 
-"""This is defined assuming that it is attached to an email service. For simplicity just abstract and dummy
-concreate class is implemented with dummy methods
+"""
+This assumes it is attached to an email service.
+For simplicity an abstract and a dummy concrete class
+are implemented with placeholder methods.
 """
 
 
@@ -19,6 +21,8 @@ class AWSEmailService:
     def send_email(self, user_info, email_body):
         print(email_body)
         print(
-            f"Email successfully sent to {user_info['email']} via {self.service_provider} service"
+            "Email successfully sent to "
+            f"{user_info['email']} "
+            f"via {self.service_provider} service"
         )
         return True

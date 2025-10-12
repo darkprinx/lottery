@@ -23,7 +23,9 @@ CUSTOM_API_TOKEN = os.environ.get("CUSTOM_API_TOKEN")
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-#i3t_@coi-6pnmbmbkm-6he2ee%b5+u9!t6=&#t)$ies7@!+&_"
+# Split across lines to satisfy line-length limits;
+# Python joins adjacent string literals.
+SECRET_KEY = "django-insecure-#i3t_@coi-6pnmbmbkm-6he2ee%b5+u9!t6=" "&#t)$ies7@!+&_"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -106,7 +108,10 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "UserAttributeSimilarityValidator"
+        ),
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
@@ -174,5 +179,7 @@ REST_FRAMEWORK = {
     # ),
     "PAGE_SIZE": 10,
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "EXCEPTION_HANDLER": "utils.custom_exceptions.custom_exception.custom_exception_handler",
+    "EXCEPTION_HANDLER": (
+        "utils.custom_exceptions.custom_exception." "custom_exception_handler"
+    ),
 }
