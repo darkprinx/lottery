@@ -12,3 +12,5 @@ static/media/
 /static
 /staticfiles
 staticfiles
+.coverage
+coverage.*

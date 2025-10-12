@@ -6,3 +6,4 @@ model-bakery==1.9.0
 pybreaker
 pytest==8.3.3
 pytest-django==4.9.0
+pytest-cov==7.0.0
