@@ -38,7 +38,7 @@ jobs:
 #        run: bandit -r .
 
       - name: Audit dependencies with pip-audit
-        run: safety check --full-report
+        run: safety scan --full-report
 
   test:
     runs-on: ubuntu-latest
