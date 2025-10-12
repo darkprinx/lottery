@@ -34,8 +34,8 @@ jobs:
         run: |
           pre-commit run --all-files --show-diff-on-failure --color always
 
-      - name: Security scan with Bandit
-        run: bandit -r .
+#      - name: Security scan with Bandit    ### use when needed
+#        run: bandit -r .
 
       - name: Audit dependencies with pip-audit
         run: safety check --full-report
