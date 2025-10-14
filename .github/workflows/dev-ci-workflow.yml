@@ -78,7 +78,7 @@ jobs:
 
       - name: Export env variable
         run: |
-          echo "TEST_ENV_VAR=test" >> $GITHUB_OUTPUT
+          export GITHUB_OUTPUT="test"
           echo $GITHUB_OUTPUT
 
   deploy:
