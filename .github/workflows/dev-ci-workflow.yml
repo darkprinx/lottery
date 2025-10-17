@@ -43,7 +43,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     outputs:
-      github-output: ${{ steps.export_env_variable.outputs.GITHUB_OUTPUT }}
+      date_output: ${{ steps.test_output.outputs.date }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -97,4 +97,4 @@ jobs:
 
       - name: Use date output  # for learning purpose on outputs
         run: |
-          echo "The date is: ${{ steps.test_output.outputs.date }}"
+          echo "The date is: ${{ steps.test_output.outputs.date_output }}"
