@@ -81,7 +81,7 @@ jobs:
       - name: Test output  # for learning purpose on outputs
         id: test_output
         run: |
-          echo "date=$(date)" >> $GITHUB_OUTPUT
+          echo "date=2020-10-30" >> $GITHUB_OUTPUT
 
   deploy:
     runs-on: ubuntu-latest
