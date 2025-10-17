@@ -81,7 +81,7 @@ jobs:
       - name: Test output  # for learning purpose on outputs
         id: test_output
         run: |
-          echo "date=2020-10-30" >> $GITHUB_OUTPUT
+          echo "date=$(date)" >> $GITHUB_OUTPUT
 
   deploy:
     runs-on: ubuntu-latest
@@ -97,4 +97,4 @@ jobs:
 
       - name: Use date output  # for learning purpose on outputs
         run: |
-          echo "The date is: ${{ steps.test_output.outputs.date_output }}"
+          echo "The date is: ${{ needs.test.outputs.date_output }}"
