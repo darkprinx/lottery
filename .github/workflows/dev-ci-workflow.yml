@@ -69,6 +69,10 @@ jobs:
         id: run_tests
         run: |
           pytest --cov=. --cov-report=term-missing
+
+      - name: Run tests (pytest) with coverage report
+        if: always()
+        run: |
           pytest --cov=. --cov-report=xml
 
       - name: Upload artifacts
