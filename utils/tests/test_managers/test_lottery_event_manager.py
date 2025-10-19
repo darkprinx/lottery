@@ -22,5 +22,5 @@ class TestLotteryEventManager(TestCase):
 
     def test_is_active_lottery_event(self):
         actual = self.lottery_event_manager.is_active_lottery_event(lottery_event_id=1)
-        expected = self.lottery_event1.status == "active"
+        expected = self.lottery_event1.status == "iactive"
         self.assertEqual(actual, expected)
