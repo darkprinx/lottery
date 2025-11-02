@@ -60,4 +60,3 @@ runs:
         token: ${{ inputs.codecov-token }}
         files: ./coverage.xml
         fail_ci_if_error: false
-

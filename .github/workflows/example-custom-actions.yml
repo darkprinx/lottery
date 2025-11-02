@@ -70,4 +70,3 @@ jobs:
         uses: ./.github/actions/run-django-tests
         with:
           additional-pytest-args: '-v'
-

@@ -73,4 +73,3 @@ runs:
         echo "- Ruff: ${{ steps.ruff-check.outcome || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
         echo "- Pre-commit: ${{ steps.pre-commit-check.outcome || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
         echo "- Safety: ${{ steps.safety-check.outcome || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
-

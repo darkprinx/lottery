@@ -55,4 +55,3 @@ runs:
     - name: Display pip list
       shell: bash
       run: pip list
-
