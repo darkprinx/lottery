@@ -1,0 +1,63 @@
+name: 'Run Django Tests'
+description: 'Runs pytest with coverage for Django project'
+author: 'Your Team'
+
+inputs:
+  coverage-report-format:
+    description: 'Coverage report format (term-missing, xml, html)'
+    required: false
+    default: 'term-missing'
+  upload-coverage:
+    description: 'Whether to upload coverage to Codecov'
+    required: false
+    default: 'false'
+  codecov-token:
+    description: 'Codecov token for uploading coverage'
+    required: false
+    default: ''
+  additional-pytest-args:
+    description: 'Additional arguments to pass to pytest'
+    required: false
+    default: ''
+
+outputs:
+  test-result:
+    description: 'Test execution result (success or failure)'
+    value: ${{ steps.run-tests.outcome }}
+  coverage-file:
+    description: 'Path to coverage file if generated'
+    value: ${{ steps.set-coverage-path.outputs.coverage-path }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Run tests with pytest
+      id: run-tests
+      shell: bash
+      run: |
+        pytest --cov=. --cov-report=${{ inputs.coverage-report-format }} ${{ inputs.additional-pytest-args }}
+
+    - name: Generate XML coverage report
+      if: inputs.upload-coverage == 'true'
+      shell: bash
+      run: |
+        pytest --cov=. --cov-report=xml
+
+    - name: Set coverage path
+      id: set-coverage-path
+      shell: bash
+      run: |
+        if [ -f "coverage.xml" ]; then
+          echo "coverage-path=coverage.xml" >> $GITHUB_OUTPUT
+        else
+          echo "coverage-path=" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Upload coverage to Codecov
+      if: inputs.upload-coverage == 'true' && inputs.codecov-token != ''
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ inputs.codecov-token }}
+        files: ./coverage.xml
+        fail_ci_if_error: false
+

@@ -1,0 +1,73 @@
+name: Example Using Custom Actions
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # Example 1: Using custom actions in a single job
+  test-with-custom-actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Use the custom setup action
+      - name: Setup Python and Dependencies
+        uses: ./.github/actions/setup-python-dependencies
+        with:
+          python-version: '3.11'
+          requirements-file: 'requirements.txt'
+
+      # Use the custom test action
+      - name: Run Tests
+        uses: ./.github/actions/run-django-tests
+        with:
+          coverage-report-format: 'term-missing'
+          upload-coverage: 'true'
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}
+
+  # Example 2: Code quality checks using custom action
+  code-quality:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python and Dependencies
+        uses: ./.github/actions/setup-python-dependencies
+        with:
+          python-version: '3.11'
+
+      - name: Run Code Quality Checks
+        uses: ./.github/actions/code-quality-checks
+        with:
+          run-ruff: 'true'
+          run-pre-commit: 'true'
+          run-safety: 'true'
+          continue-on-error: 'true'
+
+  # Example 3: Multiple Python versions with matrix strategy
+  test-multiple-versions:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: ./.github/actions/setup-python-dependencies
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache-key-prefix: 'pip-${{ matrix.python-version }}'
+
+      - name: Run Tests
+        uses: ./.github/actions/run-django-tests
+        with:
+          additional-pytest-args: '-v'
+
