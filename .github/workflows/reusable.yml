@@ -1,8 +1,35 @@
 name: Reusable Workflow
-on: workflow_call
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        required: true
+        type: string
+        description: "Python version to use"
+    secrets:
+      token:
+        required: true
+    outputs:
+      date:
+        description: "output date"
+        value: ${{ jobs.deploy.outputs.date }}
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    outputs:
+      date: ${{ steps.get_date.outputs.date }}
     steps:
-      - run: echo "Deploying reusable workflow"
+      - name: Start reusable workflow
+        run: echo "Deploying reusable workflow"
+
+      - name: Print python version
+        run: echo "Python version name ${{ inputs.python-version }}"
+
+      - name: Print test token
+        run: echo "Token is ${{ secrets.token }}"
+
+      - name: get build id
+        id: get_date
+        run: |
+          echo "date=$(date)" >> $GITHUB_OUTPUT

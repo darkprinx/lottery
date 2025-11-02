@@ -8,9 +8,22 @@ on:
 jobs:
   reusable-workflow:
     uses: ./.github/workflows/reusable.yml
+    with:
+      python-version: '3.11'
+    secrets:
+      token: ${{ secrets.TEST_TOKEN }}
+
+  use-reusable-workflow-output:
+    needs: reusable-workflow
+    name: Use reusable workflow output
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use reusable workflow output
+        run: |
+          echo "The date is: ${{ needs.reusable-workflow.outputs.date }}"
+
 
   code-quality-check:
-    name: Code quality & security checks
     runs-on: ubuntu-latest
     # Run as non-blocking initially to introduce checks without breaking pipeline.
     continue-on-error: true
