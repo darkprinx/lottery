@@ -67,3 +67,5 @@ jobs:
 
       - name: Run Docker Python Action
         uses: ./.github/actions/docker-python-action
+        with:
+          input_name: 'Tushar'
