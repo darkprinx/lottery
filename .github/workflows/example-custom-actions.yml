@@ -53,5 +53,8 @@ jobs:
   test-with-javascript-action:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Greetings
         uses: ./.github/actions/greetings
