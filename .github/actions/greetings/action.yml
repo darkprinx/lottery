@@ -1,7 +1,6 @@
-name: 'Greetings From Javascript actions'
-description: "Greetings from Javascript actions"
-author: 'Tushar'
+name: "Hello JS Action"
+description: "A simple custom JavaScript GitHub Action"
 
 runs:
-  using: 'node20'
-  main: 'index.js'
+  using: "node20"
+  main: "index.js"
