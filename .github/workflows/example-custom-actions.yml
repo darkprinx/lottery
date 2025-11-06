@@ -69,7 +69,7 @@ jobs:
         id: docker-python-greetings
         uses: ./.github/actions/docker-python-action
         with:
-          input_name: 'Tushar'
+          name: 'Tushar'
 
       - name: Print output of Docker Python Action
         run: echo ${{ steps.docker-python-greetings.outputs.greeting }}
