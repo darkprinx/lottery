@@ -2,5 +2,5 @@ name: "Hello JS Action"
 description: "A simple custom JavaScript GitHub Action"
 
 runs:
-  using: "node20"
+  using: node16
   main: "index.js"
