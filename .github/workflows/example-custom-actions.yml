@@ -50,11 +50,20 @@ jobs:
           continue-on-error: 'true'
 
   # Example 2: Using JavaScript actions in a single job
-  test-with-javascript-action:
+  greetings-with-javascript-action:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Greetings
-        uses: ./.github/actions/greetings
+        uses: ./.github/actions/js-greetings
+
+  docker-python-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Docker Python Action
+        uses: ./.github/actions/docker-python-action

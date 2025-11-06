@@ -1,0 +1,15 @@
+name: 'Python Docker Action'
+description: 'A simple Docker action using Python'
+inputs:
+  input_name:
+    description: 'The name to greet'
+    required: true
+    default: 'World'
+outputs:
+  greeting:
+    description: 'The greeting message'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+
