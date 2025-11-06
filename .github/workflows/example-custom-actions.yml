@@ -1,14 +1,14 @@
-name: Example Using Custom Actions
+name: Example Using Custom Actions (Javascript, Docker & Composite)
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
+#  push:
+#    branches: [ main ]
+#  pull_request:
   workflow_dispatch:
 
 jobs:
-  # Example 1: Using custom actions in a single job
-  test-with-custom-actions:
+  # Example 1: Using composite actions in a single job
+  test-with-composite-action:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -29,8 +29,7 @@ jobs:
           upload-coverage: 'true'
           codecov-token: ${{ secrets.CODECOV_TOKEN }}
 
-  # Example 2: Code quality checks using custom action
-  code-quality:
+  code-quality-with-composite-action:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
@@ -50,23 +49,9 @@ jobs:
           run-safety: 'true'
           continue-on-error: 'true'
 
-  # Example 3: Multiple Python versions with matrix strategy
-  test-multiple-versions:
+  # Example 2: Using JavaScript actions in a single job
+  test-with-javascript-action:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ['3.10', '3.11', '3.12']
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Python ${{ matrix.python-version }}
-        uses: ./.github/actions/setup-python-dependencies
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache-key-prefix: 'pip-${{ matrix.python-version }}'
-
-      - name: Run Tests
-        uses: ./.github/actions/run-django-tests
-        with:
-          additional-pytest-args: '-v'
+      - name: Greetings
+        uses: ./.github/actions/greetings

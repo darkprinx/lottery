@@ -1,0 +1,7 @@
+name: 'Greetings From Javascript actions'
+description: "Greetings from Javascript actions"
+author: 'Tushar'
+
+runs:
+  using: 'node20'
+  main: 'index.js'
