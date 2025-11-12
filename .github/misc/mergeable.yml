@@ -11,7 +11,7 @@ mergeable:
       - do: title
         must_include:
           regex: '^(feat|fix|ref|revert|ci|build|docs|chore)(\([\w\d-]+\))?!?: (\S.+[^.?!])$'
-          regex_flag: "none" # by default pattern is case-insensitive
+          regex_flag: "none"
           message: |
             Title should follow conventional commit format `type(scope): summary`
             - type is one of feat, fix, ref, revert, ci, build, docs, chore
