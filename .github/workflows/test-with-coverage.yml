@@ -29,4 +29,3 @@ jobs:
           coverage-report-format: 'term-missing'
           upload-coverage: inputs.upload-coverage || 'false'
           codecov-token: ${{ secrets.CODECOV_TOKEN }}
-
