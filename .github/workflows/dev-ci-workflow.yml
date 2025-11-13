@@ -5,7 +5,7 @@ on:
 
 jobs:
   reusable-workflow:
-    uses: ./.github/workflows/reusable.yml
+    uses: practice-reusable.yml
     with:
       python-version: '3.11'
     secrets:
