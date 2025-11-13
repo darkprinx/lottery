@@ -1,4 +1,4 @@
-name: 'Run Django Tests'
+name: 'Run tests with pytest'
 description: 'Runs pytest with coverage for Django project'
 author: 'darkprinx'
 
@@ -21,9 +21,6 @@ inputs:
     default: ''
 
 outputs:
-  test-result:
-    description: 'Test execution result (success or failure)'
-    value: ${{ steps.run-tests.outcome }}
   coverage-file:
     description: 'Path to coverage file if generated'
     value: ${{ steps.set-coverage-path.outputs.coverage-path }}
@@ -31,11 +28,11 @@ outputs:
 runs:
   using: 'composite'
   steps:
-    - name: Run tests with pytest
+    - name: Run tests
       id: run-tests
       shell: bash
       run: |
-        pytest --cov=. --cov-report=${{ inputs.coverage-report-format }} ${{ inputs.additional-pytest-args }}
+        pytest --cov=. --cov-report=${{ inputs.coverage-report-format }} ${{ inputs.additional-pytest-args }} >> $GITHUB_SUMMARY
 
     - name: Generate XML coverage report
       if: inputs.upload-coverage == 'true'
