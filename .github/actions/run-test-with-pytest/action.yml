@@ -1,6 +1,6 @@
-name: 'Run Django Tests'
+name: 'Run tests with pytest'
 description: 'Runs pytest with coverage for Django project'
-author: 'Your Team'
+author: 'darkprinx'
 
 inputs:
   coverage-report-format:
@@ -21,9 +21,6 @@ inputs:
     default: ''
 
 outputs:
-  test-result:
-    description: 'Test execution result (success or failure)'
-    value: ${{ steps.run-tests.outcome }}
   coverage-file:
     description: 'Path to coverage file if generated'
     value: ${{ steps.set-coverage-path.outputs.coverage-path }}
@@ -31,11 +28,26 @@ outputs:
 runs:
   using: 'composite'
   steps:
-    - name: Run tests with pytest
+    - name: Run tests
       id: run-tests
       shell: bash
       run: |
-        pytest --cov=. --cov-report=${{ inputs.coverage-report-format }} ${{ inputs.additional-pytest-args }}
+        pytest --cov=. --cov-report=${{ inputs.coverage-report-format }} ${{ inputs.additional-pytest-args }} | tee pytest-output.txt
+
+    - name: Generate coverage summary
+      if: always()
+      shell: bash
+      run: |
+        echo "## Coverage Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        if [ -f "pytest-output.txt" ]; then
+          # Extract coverage summary from pytest output
+          grep -A 20 "^-.*-$" pytest-output.txt | tail -n 15 >> $GITHUB_STEP_SUMMARY
+        else
+          echo "No test output found" >> $GITHUB_STEP_SUMMARY
+        fi
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
 
     - name: Generate XML coverage report
       if: inputs.upload-coverage == 'true'
@@ -60,3 +72,8 @@ runs:
         token: ${{ inputs.codecov-token }}
         files: ./coverage.xml
         fail_ci_if_error: false
+
+    - name: Show details of coverage path
+      shell: bash
+      run: |
+        echo "Coverage path: ${{ steps.set-coverage-path.outputs.coverage-path }}"

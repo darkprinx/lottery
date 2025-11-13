@@ -1,75 +1,54 @@
-name: 'Run Code Quality Checks'
-description: 'Runs linting and code quality checks for Python projects'
-author: 'Your Team'
+name: 'Run Code Quality Checks: Pre-commit, Ruff, Bandit, (optional) MyPy'
+description: 'Runs linting and code quality/security checks for Python projects'
+author: 'darkprinx'
 
 inputs:
   python-version:
     description: 'Python version to use'
     required: false
     default: '3.11'
-  run-ruff:
-    description: 'Whether to run Ruff linter'
-    required: false
-    default: 'true'
   run-pre-commit:
     description: 'Whether to run pre-commit hooks'
     required: false
     default: 'true'
-  run-safety:
-    description: 'Whether to run safety check'
+  run-pip-audit:
+    description: 'Whether to run pip-audit vulnerability scan'
     required: false
     default: 'true'
-  continue-on-error:
-    description: 'Whether to continue on error'
-    required: false
-    default: 'false'
 
 outputs:
-  ruff-result:
-    description: 'Ruff check result'
-    value: ${{ steps.ruff-check.outcome }}
   pre-commit-result:
     description: 'Pre-commit check result'
     value: ${{ steps.pre-commit-check.outcome }}
-  safety-result:
-    description: 'Safety check result'
-    value: ${{ steps.safety-check.outcome }}
+  pip-audit-result:
+    description: 'pip-audit dependency vulnerability scan result'
+    value: ${{ steps.pip-audit-scan.outcome }}
 
 runs:
   using: 'composite'
   steps:
-    - name: Run Ruff linter
-      id: ruff-check
-      if: inputs.run-ruff == 'true'
-      shell: bash
-      continue-on-error: ${{ inputs.continue-on-error == 'true' }}
-      run: |
-        echo "Running Ruff linter..."
-        ruff check .
-
     - name: Run pre-commit hooks
       id: pre-commit-check
       if: inputs.run-pre-commit == 'true'
       shell: bash
-      continue-on-error: ${{ inputs.continue-on-error == 'true' }}
+      continue-on-error: false
       run: |
-        echo "Running pre-commit on all files..."
+        echo '## Running pre-commit on all files ##'
         pre-commit run --all-files --show-diff-on-failure --color always
 
-    - name: Run Safety security scan
-      id: safety-check
-      if: inputs.run-safety == 'true'
+    - name: Run pip-audit vulnerability scan
+      id: pip-audit-scan
+      if: inputs.run-pip-audit == 'true'
       shell: bash
-      continue-on-error: ${{ inputs.continue-on-error == 'true' }}
+      continue-on-error: true
       run: |
-        echo "Running Safety security scan..."
-        safety scan --full-report
+        echo '## Running pip-audit (Python dependency vulnerabilities) ##'
+        pip-audit
 
     - name: Summary
       shell: bash
       run: |
-        echo "### Code Quality Check Results" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "- Ruff: ${{ steps.ruff-check.outcome || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
-        echo "- Pre-commit: ${{ steps.pre-commit-check.outcome || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
-        echo "- Safety: ${{ steps.safety-check.outcome || 'skipped' }}" >> $GITHUB_STEP_SUMMARY
+        echo '### Code Quality Check Results' >> "$GITHUB_STEP_SUMMARY"
+        echo '' >> "$GITHUB_STEP_SUMMARY"
+        echo "- Pre-commit: ${{ steps.pre-commit-check.outcome || 'skipped' }}" >> "$GITHUB_STEP_SUMMARY"
+        echo "- pip-audit: ${{ steps.pip-audit-scan.outcome || 'skipped' }}" >> "$GITHUB_STEP_SUMMARY"

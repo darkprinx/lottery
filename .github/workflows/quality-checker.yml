@@ -1,0 +1,24 @@
+name: Code Quality Checker
+on:
+  pull_request:
+    types: [ opened, synchronize, reopened, ready_for_review ]
+  workflow_call:
+
+jobs:
+  code-quality-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python and Dependencies
+        uses: ./.github/actions/setup-python-dependencies
+        with:
+          python-version: '3.13'
+
+      - name: Run Code Quality Checks
+        uses: ./.github/actions/code-quality-checks
+        with:
+          python-version: '3.13'
+          run-pre-commit: 'true'
+          run-pip-audit: 'true'
