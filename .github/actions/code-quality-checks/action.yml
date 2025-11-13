@@ -33,7 +33,7 @@ runs:
       shell: bash
       continue-on-error: false
       run: |
-        echo 'Running pre-commit on all files...'
+        echo '## Running pre-commit on all files ##'
         pre-commit run --all-files --show-diff-on-failure --color always
 
     - name: Run pip-audit vulnerability scan
@@ -42,7 +42,7 @@ runs:
       shell: bash
       continue-on-error: true
       run: |
-        echo 'Running pip-audit (Python dependency vulnerabilities)...'
+        echo '## Running pip-audit (Python dependency vulnerabilities) ##'
         pip-audit
 
     - name: Summary
