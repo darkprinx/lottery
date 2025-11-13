@@ -7,7 +7,7 @@ pybreaker
 pytest==8.3.3
 pytest-django==4.9.0
 pytest-cov==7.0.0
-ruff
-pre-commit
-safety
-bandit
+
+# Code quality & tooling
+pre-commit==3.8.0
+pip-audit==2.7.3

@@ -20,4 +20,4 @@ jobs:
         uses: ./.github/actions/code-quality-checks
         with:
           run-pre-commit: 'true'
-          run-safety: 'true'
+          run-pip-audit: 'true'
