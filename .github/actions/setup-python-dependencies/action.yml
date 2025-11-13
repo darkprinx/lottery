@@ -1,6 +1,6 @@
 name: 'Setup Python and Dependencies'
 description: 'Sets up Python environment, caches dependencies, and installs requirements'
-author: 'Your Team'
+author: 'darkprinx'
 
 inputs:
   python-version:
@@ -15,14 +15,6 @@ inputs:
     description: 'Prefix for cache key'
     required: false
     default: 'pip'
-
-outputs:
-  cache-hit:
-    description: 'Whether cache was hit'
-    value: ${{ steps.cache-dependencies.outputs.cache-hit }}
-  python-version:
-    description: 'Python version that was set up'
-    value: ${{ steps.setup-python.outputs.python-version }}
 
 runs:
   using: 'composite'
@@ -54,4 +46,6 @@ runs:
 
     - name: Display pip list
       shell: bash
-      run: pip list
+      run: |
+        pip list
+        pip list >> $GITHUB_STEP_SUMMARY

@@ -1,6 +1,6 @@
 name: 'Run Code Quality Checks'
 description: 'Runs linting and code quality checks for Python projects'
-author: 'Your Team'
+author: 'darkprinx'
 
 inputs:
   python-version:
