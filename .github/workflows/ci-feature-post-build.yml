@@ -1,0 +1,58 @@
+name: CI Feature - Build, Test & Push Image on demand
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [ opened, synchronize, reopened, ready_for_review ]
+
+jobs:
+  code-quality-check:
+    uses: './.github/workflows/quality-checker.yml'
+
+  run-tests:
+    uses: './.github/workflows/build-and-test.yml'
+
+  build-and-push:
+    needs: [code-quality-check, run-tests]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set image name from dockerhub
+        id: image-name
+        run: |
+          echo "IMAGE_NAME=${{ secrets.DOCKERHUB_IMAGE_NAME }}/lottery" >> $GITHUB_OUTPUT
+          echo "Image Name: ${IMAGE_NAME}"
+
+      - name: Get short commit hash as image tag
+        id: hash
+        run: |
+          IMAGE_TAG=$(git rev-parse --short HEAD)
+          echo "IMAGE_TAG=${IMAGE_TAG}" >> $GITHUB_OUTPUT
+          echo "Generated image tag: ${IMAGE_TAG}"
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
+
+      - name: Build and push to Docker Hub
+        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ steps.image-name.outputs.IMAGE_NAME }}:${{ steps.hash.outputs.IMAGE_TAG }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Pushed image details github summary
+        run: |
+          echo "## Pushed Docker Image Details" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Image Name:** ${{ steps.image-name.outputs.IMAGE_NAME }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Image Tag:** ${{ steps.hash.outputs.IMAGE_TAG }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Full Image Reference:** ${{ steps.image-name.outputs.IMAGE_NAME }}:${{ steps.hash.outputs.IMAGE_TAG }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ✅ Build and Push Successful" >> $GITHUB_STEP_SUMMARY
