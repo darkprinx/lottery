@@ -1,0 +1,25 @@
+name: Unit test with coverage report
+
+on:
+  pull_request:
+    types: [ opened, synchronize, reopened, ready_for_review ]
+  workflow_call:
+
+jobs:
+  run-tests-with-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python and Dependencies
+        uses: ./.github/actions/setup-python-dependencies
+        with:
+          python-version: '3.13'
+
+      - name: Run unit tests with coverage
+        uses: ./.github/actions/run-test-with-pytest
+        with:
+          coverage-report-format: 'term-missing'
+          upload-coverage: 'true'
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}
