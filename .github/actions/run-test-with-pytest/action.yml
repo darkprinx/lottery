@@ -40,12 +40,14 @@ runs:
       run: |
         echo "## Coverage Summary" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
         if [ -f "pytest-output.txt" ]; then
           # Extract coverage summary from pytest output
           grep -A 20 "^-.*-$" pytest-output.txt | tail -n 15 >> $GITHUB_STEP_SUMMARY
         else
           echo "No test output found" >> $GITHUB_STEP_SUMMARY
         fi
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
 
     - name: Generate XML coverage report
       if: inputs.upload-coverage == 'true'
