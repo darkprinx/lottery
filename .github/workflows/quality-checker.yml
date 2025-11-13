@@ -19,5 +19,6 @@ jobs:
       - name: Run Code Quality Checks
         uses: ./.github/actions/code-quality-checks
         with:
+          python-version: '3.13'
           run-pre-commit: 'true'
           run-pip-audit: 'true'
