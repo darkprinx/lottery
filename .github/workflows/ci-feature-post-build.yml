@@ -9,7 +9,7 @@ jobs:
     uses: './.github/workflows/quality-checker.yml'
 
   run-tests:
-    uses: './.github/workflows/build-and-test.yml'
+    uses: './.github/workflows/test-with-coverage.yml'
 
   build-and-push:
     needs: [code-quality-check, run-tests]

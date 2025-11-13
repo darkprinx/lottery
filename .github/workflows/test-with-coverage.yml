@@ -8,7 +8,7 @@ on:
       upload-coverage:
         description: 'Whether to upload coverage to Codecov'
         required: false
-        default: 'true'
+        default: 'false'
         type: string
 
 jobs:
