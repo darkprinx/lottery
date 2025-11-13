@@ -4,6 +4,12 @@ on:
   pull_request:
     types: [ opened, synchronize, reopened, ready_for_review ]
   workflow_call:
+    inputs:
+      upload-coverage:
+        description: 'Whether to upload coverage to Codecov'
+        required: false
+        default: 'true'
+        type: string
 
 jobs:
   run-tests-with-coverage:
@@ -21,5 +27,6 @@ jobs:
         uses: ./.github/actions/run-test-with-pytest
         with:
           coverage-report-format: 'term-missing'
-          upload-coverage: 'true'
+          upload-coverage: inputs.upload-coverage || 'false'
           codecov-token: ${{ secrets.CODECOV_TOKEN }}
+
