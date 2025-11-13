@@ -1,6 +1,6 @@
 name: 'Run Django Tests'
 description: 'Runs pytest with coverage for Django project'
-author: 'Your Team'
+author: 'darkprinx'
 
 inputs:
   coverage-report-format:

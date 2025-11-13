@@ -19,7 +19,5 @@ jobs:
       - name: Run Code Quality Checks
         uses: ./.github/actions/code-quality-checks
         with:
-          run-ruff: 'true'
           run-pre-commit: 'true'
           run-safety: 'true'
-          continue-on-error: 'true'
