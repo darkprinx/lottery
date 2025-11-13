@@ -2,7 +2,7 @@ name: Unit test with coverage report
 
 on:
   pull_request:
-    types: [ opened, synchronize, reopened, ready_for_review ]
+    types: [ opened, synchronize, reopened, ready_for_review]
   workflow_call:
     inputs:
       upload-coverage:
