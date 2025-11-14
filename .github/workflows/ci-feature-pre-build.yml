@@ -67,6 +67,18 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage.xml
 
+      - name: Push Docker Image to Docker Hub
+        if: contains(github.event.pull_request.title, '(push image)')  # push image if pr title contains (push image)
+        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
+        with:
+          context: .
+          push: true
+          load: false
+          tags: |
+            ${{ steps.image-name.outputs.IMAGE_NAME }}:${{ steps.hash.outputs.IMAGE_TAG }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
       - name: Pushed image details github summary
         run: |
           echo "## Pushed Docker Image Details" >> $GITHUB_STEP_SUMMARY
