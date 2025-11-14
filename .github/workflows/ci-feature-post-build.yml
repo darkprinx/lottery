@@ -22,7 +22,8 @@ jobs:
       - name: Set image name from dockerhub
         id: image-name
         run: |
-          echo "IMAGE_NAME=${{ secrets.DOCKERHUB_IMAGE_NAME }}/lottery" >> $GITHUB_OUTPUT
+          echo "IMAGE_NAME=${{ secrets.DOCKERHUB_USER }}/lottery" >> $GITHUB_OUTPUT
+          echo "Set Image Name: ${IMAGE_NAME}"
 
       - name: Get short commit hash as image tag
         id: hash
