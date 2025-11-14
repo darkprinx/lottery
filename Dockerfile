@@ -40,4 +40,4 @@ COPY . /app
 # Ensure script is executable and set permissions for the non-root user
 RUN chmod +x /app/entrypoint.sh
 
-ENTRYPOINT ["dumb-init", "/app/entrypoint.sh"]
+#ENTRYPOINT ["dumb-init", "/app/entrypoint.sh"]
