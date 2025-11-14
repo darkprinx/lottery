@@ -55,7 +55,7 @@ jobs:
           docker run --rm \
           ${{ steps.image-name.outputs.IMAGE_NAME }}:${{ steps.hash.outputs.IMAGE_TAG }} \
           pytest --cov=. --cov-report=term-missing
-          
+
           docker run --rm \
           -v ${{ github.workspace }}:/app \
           ${{ steps.image-name.outputs.IMAGE_NAME }}:${{ steps.hash.outputs.IMAGE_TAG }} \
