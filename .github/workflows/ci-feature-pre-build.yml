@@ -46,8 +46,8 @@ jobs:
         run: |
           docker run --rm \
           -v ${{ github.workspace }}:/app \
-          ${{ steps.image-name.outputs.IMAGE_NAME }}:${{ steps.hash.outputs.IMAGE_TAG }}
-          sh -c "pre-commit run --all-files --show-diff-on-failure --color always"
+          ${{ steps.image-name.outputs.IMAGE_NAME }}:${{ steps.hash.outputs.IMAGE_TAG }} \
+          pre-commit run --all-files --show-diff-on-failure --color always
 
       - name: Run pip-audit vulnerability scan
         continue-on-error: true
