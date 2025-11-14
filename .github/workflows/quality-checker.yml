@@ -1,5 +1,11 @@
 name: Code Quality Checker
 on:
+  push:
+    branches-ignore:
+      - main
+      - master
+      - development
+
   pull_request:
     branches-ignore:
       - main
