@@ -1,8 +1,11 @@
 name: Unit test with coverage report
 
 on:
-  pull_request:
-    types: [ opened, synchronize, reopened, ready_for_review]
+  push:
+    branches-ignore:
+      - main
+      - master
+      - development
   workflow_call:
     inputs:
       upload-coverage:
