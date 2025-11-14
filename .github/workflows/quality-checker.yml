@@ -12,6 +12,7 @@ on:
       - development
   workflow_call:
 
+
 jobs:
   code-quality-check:
     runs-on: ubuntu-latest
