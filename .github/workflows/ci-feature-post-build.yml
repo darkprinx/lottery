@@ -9,25 +9,26 @@ jobs:
     uses: './.github/workflows/quality-checker.yml'
 
   run-tests:
-    uses: './.github/workflows/build-and-test.yml'
+    uses: './.github/workflows/test-with-coverage.yml'
 
   build-and-push:
     needs: [code-quality-check, run-tests]
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Set image name from dockerhub
         id: image-name
         run: |
-          echo "IMAGE_NAME=${{ secrets.DOCKERHUB_IMAGE_NAME }}/lottery" >> $GITHUB_OUTPUT
-          echo "Image Name: ${IMAGE_NAME}"
+          echo "IMAGE_NAME=${{ secrets.DOCKERHUB_USER }}/lottery" >> $GITHUB_OUTPUT
 
       - name: Get short commit hash as image tag
         id: hash
         run: |
           IMAGE_TAG=$(git rev-parse --short HEAD)
           echo "IMAGE_TAG=${IMAGE_TAG}" >> $GITHUB_OUTPUT
-          echo "Generated image tag: ${IMAGE_TAG}"
 
       - name: Login to Docker Hub
         uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0

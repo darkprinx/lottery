@@ -2,13 +2,16 @@ name: Unit test with coverage report
 
 on:
   pull_request:
-    types: [ opened, synchronize, reopened, ready_for_review]
+    branches-ignore:
+      - main
+      - master
+      - development
   workflow_call:
     inputs:
       upload-coverage:
         description: 'Whether to upload coverage to Codecov'
         required: false
-        default: 'true'
+        default: 'false'
         type: string
 
 jobs:
