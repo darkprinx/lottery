@@ -60,15 +60,18 @@ jobs:
       - name: Run pytest with coverage
         run: |
           docker run --rm \
+          ${{ steps.image-name.outputs.IMAGE_NAME }}:${{ steps.hash.outputs.IMAGE_TAG }} \
+          pytest --cov=. --cov-report=term-missing
+          
+          docker run --rm \
           -v ${{ github.workspace }}:/app \
           ${{ steps.image-name.outputs.IMAGE_NAME }}:${{ steps.hash.outputs.IMAGE_TAG }} \
           pytest --cov=. --cov-report=xml
 
       - name: Upload coverage to Codecov
-        if: inputs.codecov-token != ''
         uses: codecov/codecov-action@v5
         with:
-          token: ${{ inputs.codecov-token }}
+          token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage.xml
 
       - name: Pushed image details github summary
