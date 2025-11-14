@@ -23,15 +23,20 @@ jobs:
         id: image-name
         run: |
           echo "IMAGE_NAME=${{ secrets.DOCKERHUB_IMAGE_NAME }}/lottery" >> $GITHUB_OUTPUT
-          echo "Image Name: ${IMAGE_NAME}"
-          echo "Image Name: ${{ secrets.DOCKERHUB_IMAGE_NAME }}"
 
       - name: Get short commit hash as image tag
         id: hash
         run: |
           IMAGE_TAG=$(git rev-parse --short HEAD)
           echo "IMAGE_TAG=${IMAGE_TAG}" >> $GITHUB_OUTPUT
-          echo "Generated image tag: ${IMAGE_TAG}"
+
+      - name: Print image details
+        run: |
+          echo "==================== Build Details ===================="
+          echo "Docker Hub Image Name: ${{ steps.image-name.outputs.IMAGE_NAME }}"
+          echo "Image Tag: ${{ steps.hash.outputs.IMAGE_TAG }}"
+          echo "Full Image Reference: ${{ steps.image-name.outputs.IMAGE_NAME }}:${{ steps.hash.outputs.IMAGE_TAG }}"
+          echo "======================================================"
 
       - name: Login to Docker Hub
         uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
