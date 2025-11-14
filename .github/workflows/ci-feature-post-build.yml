@@ -24,6 +24,7 @@ jobs:
         run: |
           echo "IMAGE_NAME=${{ secrets.DOCKERHUB_IMAGE_NAME }}/lottery" >> $GITHUB_OUTPUT
           echo "Image Name: ${IMAGE_NAME}"
+          echo "Image Name: ${{ secrets.DOCKERHUB_IMAGE_NAME }}"
 
       - name: Get short commit hash as image tag
         id: hash
