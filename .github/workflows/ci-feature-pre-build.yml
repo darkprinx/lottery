@@ -42,12 +42,12 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      #      - name: Run pre-commit hooks
-      #        run: |
-      #          docker run --rm \
-      #          -v ${{ github.workspace }}:/app \
-      #          ${{ steps.image-name.outputs.IMAGE_NAME }}:${{ steps.hash.outputs.IMAGE_TAG }}
-      #          pre-commit run --all-files --show-diff-on-failure --color always
+      - name: Run pre-commit hooks
+        run: |
+          docker run --rm \
+          -v ${{ github.workspace }}:/app \
+          ${{ steps.image-name.outputs.IMAGE_NAME }}:${{ steps.hash.outputs.IMAGE_TAG }}
+          pre commit run --all-files --show-diff-on-failure --color always
 
       - name: Run pip-audit vulnerability scan
         continue-on-error: true
