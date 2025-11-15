@@ -11,9 +11,17 @@ on:
     branches:
       - development
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-feature-and-dev-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - name: Checkout repository
@@ -41,22 +49,26 @@ jobs:
           echo "Image Tag: ${{ steps.hash.outputs.IMAGE_TAG }}"
           echo "Git commit: ${{ github.sha }}"
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
+
+      - name: Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
         with:
-          username: ${{ secrets.DOCKERHUB_USER }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          images: ${{ steps.image-name.outputs.IMAGE_NAME }}
+          tags: |
+            type=raw,value=${{ steps.hash.outputs.IMAGE_TAG }}
 
-      - uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
-
-      - name: Build and push to Docker Hub
+      - name: Build image (no push)
         uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
         with:
           context: .
           push: false
-          load: true
-          tags: |
-            ${{ steps.image-name.outputs.IMAGE_NAME }}:${{ steps.hash.outputs.IMAGE_TAG }}
+          pull: true
+          platforms: linux/amd64
+          tags: ${{ steps.image-name.outputs.IMAGE_NAME }}:${{ steps.hash.outputs.IMAGE_TAG }}
+          labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -86,25 +98,37 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage.xml
+      
+      - name: Login to Docker Hub (for push)
+        if: |
+          (github.event_name == 'push' && github.ref == 'refs/heads/development') ||
+          (github.event_name == 'pull_request' && contains(github.event.pull_request.title, '(push-image)'))
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Push Docker Image to Docker Hub
         if: |
           (github.event_name == 'push' && github.ref == 'refs/heads/development') ||
-          contains(github.event.pull_request.title, '(push-image)')
+          (github.event_name == 'pull_request' && contains(github.event.pull_request.title, '(push-image)'))
         uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
         with:
           context: .
           push: true
-          load: false
-          tags: |
-            ${{ steps.image-name.outputs.IMAGE_NAME }}:${{ steps.hash.outputs.IMAGE_TAG }}
+          pull: true
+          platforms: linux/amd64
+          tags: ${{ steps.image-name.outputs.IMAGE_NAME }}:${{ steps.hash.outputs.IMAGE_TAG }}
+          labels: ${{ steps.meta.outputs.labels }}
+          provenance: true
+          sbom: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Pushed image details github summary
         if: |
           (github.event_name == 'push' && github.ref == 'refs/heads/development') ||
-          contains(github.event.pull_request.title, '(push-image)')
+          (github.event_name == 'pull_request' && contains(github.event.pull_request.title, '(push-image)'))
         run: |
           echo "## Pushed Docker Image Details" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
