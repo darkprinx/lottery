@@ -1,8 +1,8 @@
 name: CI Feature Pre Build - Build, Quality check, Test & Push Image
 on:
   workflow_dispatch:
-  #  pull_request:
-  #    types: [ opened, synchronize, reopened, ready_for_review ]
+  pull_request:
+    types: [ opened, synchronize, reopened, ready_for_review ]
   push:
     branches:
       - development
