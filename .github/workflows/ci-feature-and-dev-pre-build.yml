@@ -1,8 +1,8 @@
 name: CI Feature Pre Build - Build, Quality check, Test & Push Image
 on:
   workflow_dispatch:
-  pull_request:
-    types: [ opened, synchronize, reopened, ready_for_review ]
+  #  pull_request:
+  #    types: [ opened, synchronize, reopened, ready_for_review ]
   push:
     branches:
       - development
@@ -25,7 +25,6 @@ jobs:
       - name: Get image tag
         id: hash
         run: |
-          echo "${{ github.event_name }} ${{ github.ref }}"
           if [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref }}" == "refs/heads/development" ]; then
             IMAGE_TAG="dev"
           else
