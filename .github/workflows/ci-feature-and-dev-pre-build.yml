@@ -30,6 +30,11 @@ jobs:
           fi
           echo "IMAGE_TAG=${IMAGE_TAG}" >> $GITHUB_OUTPUT
 
+      - name: Print image info
+        run: |
+          echo "Image Tag: ${{ steps.hash.outputs.IMAGE_TAG }}"
+          echo "Git commit: ${{ github.sha }}"
+
       - name: Login to Docker Hub
         uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
         with:
