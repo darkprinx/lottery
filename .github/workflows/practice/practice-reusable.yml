@@ -1,3 +1,6 @@
+# Reusable workflow example invoked via workflow_call
+# Accepts inputs and secrets, and exposes outputs
+# Demonstrates printing inputs and emitting date output
 name: Reusable Workflow
 on:
   workflow_call:

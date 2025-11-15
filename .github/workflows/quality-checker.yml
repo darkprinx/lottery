@@ -1,3 +1,6 @@
+# Reusable workflow to run code quality checks
+# Sets up Python and runs composite checks (ruff, pre-commit, pip-audit)
+# Supports manual dispatch and workflow_call triggers
 name: Code Quality Checker
 on:
   #  push:

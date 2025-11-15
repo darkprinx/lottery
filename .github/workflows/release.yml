@@ -1,3 +1,6 @@
+# Manual release to promote dev image to prod via imagetools
+# Tags prod and commit SHA; optionally creates GitHub release
+# Logs promotion summary and includes placeholder CD trigger
 name: Release - promote dev image to production
 
 on:

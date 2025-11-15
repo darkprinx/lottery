@@ -1,3 +1,6 @@
+# Practice workflow demonstrating custom actions (composite, JS, Docker)
+# Runs setup, tests, quality checks, greetings, and a Docker action
+# Triggered manually via workflow_dispatch
 name: Example Using Custom Actions (Javascript, Docker & Composite)
 
 on:

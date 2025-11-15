@@ -1,3 +1,6 @@
+# Reusable workflow to run unit tests with coverage
+# Sets up Python, runs pytest via composite action
+# Optionally uploads coverage to Codecov based on input
 name: Unit test with coverage report
 
 on:

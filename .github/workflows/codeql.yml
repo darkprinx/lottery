@@ -1,3 +1,6 @@
+# CodeQL static analysis for Python
+# Runs on pushes to master and PRs to master/development
+# Initializes, autobuilds, analyzes; uploads results to code scanning
 name: "CodeQL"
 
 on:

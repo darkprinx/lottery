@@ -1,3 +1,7 @@
+# CI for feature PRs and development branch
+# Builds Docker image with caching, runs pip-audit and pytest coverage
+# Pushes image on development or '(push-image)' PRs; uploads coverage on development
+
 name: CI Feature Pre Build - Build, Quality check, Test & Push Image
 on:
   workflow_dispatch:
