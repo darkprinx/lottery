@@ -17,7 +17,6 @@ closed yet.
 ● Users have to pay per lottery ballot submission.
 ```
 
-
 ## Instructions to run the application
 
 Go to the project root folder **lottery** and run the command
