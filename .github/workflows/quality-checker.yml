@@ -28,11 +28,11 @@ jobs:
       - name: Setup Python and Dependencies
         uses: ./.github/actions/setup-python-dependencies
         with:
-          python-version: '3.13'
+          python-version: '3.14'
 
       - name: Run Code Quality Checks
         uses: ./.github/actions/code-quality-checks
         with:
-          python-version: '3.13'
+          python-version: '3.14'
           run-pre-commit: 'true'
           run-pip-audit: 'true'
