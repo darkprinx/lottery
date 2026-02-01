@@ -17,11 +17,11 @@ are implemented with placeholder methods.
 """
 
 
-class MobilePaymentService:
+class MobilePaymentService(BasePaymentService):
     def __init__(self):
         pass
 
-    def make_payment(self, *args, **kwargs):
+    def make_payment(self, *_args, **_kwargs):
         print("Payment made via mobile payment service")
         return {
             "payment_via": "mobile_payment",
@@ -30,11 +30,11 @@ class MobilePaymentService:
         }
 
 
-class CardPaymentService:
+class CardPaymentService(BasePaymentService):
     def __init__(self):
         pass
 
-    def make_payment(self, *args, **kwargs):
+    def make_payment(self, *_args, **_kwargs):
         print("Payment made via card payment service")
         return {
             "payment_via": "card_payment",
@@ -44,9 +44,9 @@ class CardPaymentService:
 
 
 class PaymentFactory:
-    payment_services = {
-        "mobile_payment": MobilePaymentService(),
-        "card_payment": CardPaymentService(),
+    payment_services = {  # noqa RUF012
+        "mobile_payment": MobilePaymentService,
+        "card_payment": CardPaymentService,
     }
 
     def get_payment_service(self, payment_service_type):
@@ -60,4 +60,4 @@ class PaymentFactory:
                     )
                 }
             )
-        return self.payment_services[payment_service_type]
+        return self.payment_services[payment_service_type].__call__()

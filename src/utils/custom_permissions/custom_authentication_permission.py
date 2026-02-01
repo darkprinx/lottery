@@ -7,7 +7,7 @@ class IsValidRequest(permissions.BasePermission):
     Global permission check for blocked IPs.
     """
 
-    def has_permission(self, request, view):
+    def has_permission(self, request, _view):
         authorization_token = request.headers.get("Authorization")
         if authorization_token:
             authorization_token = authorization_token.replace("Bearer", "")

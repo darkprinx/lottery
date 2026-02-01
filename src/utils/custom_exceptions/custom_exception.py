@@ -28,11 +28,11 @@ def custom_exception_handler(exc, context):
     return _handle_other_errors_as_500(exc, context, response)
 
 
-def _handle_generic_error(exc, context, response):
+def _handle_generic_error(_exc, _context, response):
     return response
 
 
-def _handle_other_errors_as_500(exc, context, response):
+def _handle_other_errors_as_500(exc, _context, response):
     if not response:
         return Response(data={"error": str(exc)}, status=500)
 

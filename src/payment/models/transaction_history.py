@@ -18,3 +18,6 @@ class TransactionHistory(models.Model):
     class Meta:
         managed = True
         db_table = "transaction_history"
+
+    def __str__(self):
+        return f"Transaction {self.transaction_id} by {self.paid_by.username}"

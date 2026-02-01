@@ -34,4 +34,6 @@ urlpatterns = [
         LotteryParticipantView.as_view(),
         name="get-lottery-participant-list",
     ),
-] + lottery_router.urls
+]
+
+urlpatterns += lottery_router.urls

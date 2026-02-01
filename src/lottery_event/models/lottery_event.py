@@ -35,3 +35,6 @@ class LotteryEvent(models.Model):
     class Meta:
         managed = True
         db_table = "lottery_event"
+
+    def __str__(self):
+        return f"LotteryEvent {self.title} ({self.status})"

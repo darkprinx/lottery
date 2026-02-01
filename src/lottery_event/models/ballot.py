@@ -14,3 +14,6 @@ class Ballot(models.Model):
     class Meta:
         managed = True
         db_table = "ballot"
+
+    def __str__(self):
+        return f"Ballot {self.ballot_number} owned by {self.owner.username}"
