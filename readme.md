@@ -6,17 +6,22 @@ A Django-based lottery event management system where users can participate in da
 
 ### Functional Requirements & Assumptions
 
-```
-● Only one event can be created each day.
-● Users can register for lottery events as participants.
-● Lottery participants will be able to buy as many lottery ballots as possible which is not
-  closed yet.
-● Each day at midnight the lottery event will be closed and a random lottery-winning ballot
-  will be selected from all the participants.
-● All users will be able to check the winning ballot for any specific date.
-```
+- [ ] A lottery event will be created automatically each day at midnight
+    - do it by celery beat schedule
+- [ ] Can create users with different roles: admin, participant
+- [ ] Admin users can create/update/delete lottery events manually
+    - practice router based url and modelviewsets here
+- [ ] Admin users can view all lottery events list and participants count
+- [ ] Admin users can view all participants for a specific lottery event
+- [ ] Admin users can export all data of a specific lottery event in CSV, json, etc formats
+    - practice different type of renders here
+- [ ] Users can register for lottery events as participants.
+- [ ] Lottery participants will be able to buy as many lottery ballots as possible which is not closed yet.
+- [ ] Each day at midnight the lottery event will be closed and a random lottery-winning ballot will be selected from
+  all the participants.
+- [ ] All users will be able to check the winning ballot for any specific date.
 
-### Additional Features
+### Additional
 
 ```
 ● The winner will be notified via email.
