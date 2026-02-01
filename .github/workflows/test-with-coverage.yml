@@ -1,17 +1,18 @@
 name: Unit test with coverage report
 
 on:
-  push:
-    branches-ignore:
-      - main
-      - master
-      - development
-
-  pull_request:
-    branches-ignore:
-      - main
-      - master
-      - development
+  #  push:
+  #    branches-ignore:
+  #      - main
+  #      - master
+  #      - development
+  #
+  #  pull_request:
+  #    branches-ignore:
+  #      - main
+  #      - master
+  #      - development
+  workflow_dispatch:
   workflow_call:
     inputs:
       upload-coverage:
