@@ -104,7 +104,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [ env.PYTHON_VERSION ]
+        python-version: [ "3.14" ]
 
     steps:
       - name: Checkout code
