@@ -1,0 +1,87 @@
+from rest_framework import serializers
+
+from lottery_event.models.lottery_event import LotteryEvent
+from lottery_event.serializers.ballot_serializer import BallotMinimalSerializer
+from utils.managers.lottery_event_manager import LotteryEventManager
+from utils.managers.user_manager import UserManager
+
+
+class LotteryEventWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LotteryEvent
+        fields = ("id", "title", "status", "ballot_price", "prize_money")
+
+
+class LotteryEventReadSerializer(serializers.ModelSerializer):
+    winning_ballot = BallotMinimalSerializer()
+
+    class Meta:
+        model = LotteryEvent
+        fields = (
+            "id",
+            "title",
+            "status",
+            "ballot_price",
+            "prize_money",
+            "winning_ballot",
+        )
+
+
+class RegisterLotteryEventSerializer(serializers.Serializer):
+    user_id = serializers.IntegerField(required=True)
+    lottery_event_id = serializers.IntegerField(required=True)
+
+    user_manager = UserManager()
+    lottery_event_manager = LotteryEventManager()
+
+    def validate(self, data):
+        user_id = data.get("user_id")
+        lottery_event_id = data.get("lottery_event_id")
+
+        if not self.lottery_event_manager.is_active_lottery_event(lottery_event_id):
+            raise serializers.ValidationError(
+                {"lottery_event_id": "Lottery event doesn't exists or is closed"}
+            )
+
+        if not self.user_manager.is_user_exists(user_id):
+            raise serializers.ValidationError({"user_id": "User doesn't exist"})
+
+        if self.lottery_event_manager.is_user_registered(user_id, lottery_event_id):
+            raise serializers.ValidationError(
+                {"user_id": "User is already registered to this lottery event"}
+            )
+        return data
+
+
+class PurchaseLotteryBallotSerializer(RegisterLotteryEventSerializer):
+    user_id = serializers.IntegerField(required=True)
+    lottery_event_id = serializers.IntegerField(required=True)
+
+    user_manager = UserManager()
+    lottery_event_manager = LotteryEventManager()
+
+    def validate(self, data):
+        user_id = data.get("user_id")
+        lottery_event_id = data.get("lottery_event_id")
+
+        if not self.lottery_event_manager.is_active_lottery_event(lottery_event_id):
+            raise serializers.ValidationError(
+                {"lottery_event_id": "Lottery event doesn't exists or is closed"}
+            )
+
+        if not self.user_manager.is_user_exists(user_id):
+            raise serializers.ValidationError({"user_id": "User doesn't exist"})
+
+        if not self.lottery_event_manager.is_user_registered(user_id, lottery_event_id):
+            raise serializers.ValidationError(
+                {"user_id": "User not registered to the lottery event"}
+            )
+        return data
+
+
+class LotteryWinnerSerializer(serializers.ModelSerializer):
+    winning_ballot = BallotMinimalSerializer()
+
+    class Meta:
+        model = LotteryEvent
+        fields = ("title", "prize_money", "winning_ballot")

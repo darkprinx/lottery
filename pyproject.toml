@@ -1,0 +1,170 @@
+[project]
+name = "lottery"
+version = "0.1.0"
+description = "Django-based lottery event management system"
+readme = "readme.md"
+requires-python = ">=3.14"
+dependencies = [
+    "Django==5.1.5",
+    "djangorestframework==3.15.2",
+    "drf-yasg==1.21.8",
+    "APScheduler==3.10.4",
+    "model-bakery==1.19.5",
+    "pybreaker>=1.2.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==8.3.4",
+    "pytest-django==4.9.0",
+    "pytest-cov==7.0.0",
+    "pytest-xdist>=3.6.1",
+    "ruff>=0.8.0",
+    "pre-commit==3.8.0",
+    "pip-audit==2.7.3",
+    "mypy>=1.11.0",
+    "django-stubs>=5.0.0",
+    "djangorestframework-stubs>=3.15.0",
+    "coverage[toml]>=7.6.0",
+    "ipython>=8.12.0",
+    "ipdb>=0.13.13",
+]
+
+[tool.ruff]
+line-length = 88
+#target-version = "py314"
+exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "*/migrations/*",
+    "staticfiles",
+    "build",
+    "dist",
+]
+
+[tool.ruff.lint]
+select = [
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "F", # pyflakes
+    "I", # isort
+    "B", # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+    "ARG", # flake8-unused-arguments
+    "SIM", # flake8-simplify
+    "DJ", # flake8-django
+    "PIE", # flake8-pie
+    "PL", # pylint
+    "RUF", # ruff-specific rules
+]
+ignore = [
+    "E501", # line too long (handled by formatter)
+    "PLR0913", # too many arguments
+    "PLR2004", # magic value used in comparison
+    "DJ001", # null on string-based field (allow nulls)
+    "ARG002", # unused argument (handled by per-file-ignores)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"*/tests/*" = ["ARG", "PLR2004", "S"]
+"*/migrations/*" = ["ALL"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["core", "lottery_event", "payment", "user", "utils"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "core.settings"
+pythonpath = ["src"]
+python_files = ["test_*.py", "*_tests.py", "tests.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+testpaths = ["src/lottery_event/tests", "src/payment/tests", "src/user/tests", "src/utils/tests", "src/utils/tests_pytest"]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--strict-config",
+    "--tb=short",
+    "--cov=.",
+    "--cov-report=term-missing:skip-covered",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-config=pyproject.toml",
+    "--no-cov-on-fail",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "*/migrations/*",
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__pycache__/*",
+    "*/venv/*",
+    "*/.venv/*",
+    "src/manage.py",
+    "*/wsgi.py",
+    "*/asgi.py",
+    "*/settings.py",
+]
+branch = true
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.mypy]
+python_version = "3.14"
+plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
+ignore_missing_imports = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+follow_imports = "normal"
+strict_optional = true
+
+[[tool.mypy.overrides]]
+module = "*.migrations.*"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "*.tests.*"
+disallow_untyped_defs = false
+
+[tool.django-stubs]
+django_settings_module = "core.settings"
+
+[tool.bandit]
+exclude_dirs = ["*/tests/*", "*/migrations/*", ".venv", "venv"]
+skips = ["B101", "B601"]  # B101: assert_used, B601: paramiko_calls

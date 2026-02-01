@@ -1,21 +1,71 @@
+# IDEs
 .idea
-/env
-*.sqlite3
-db.sqlite3-journal
-static/media/
-/mediafiles
-/staticfiles
+.vscode
+*.swp
+*.swo
 *~
-/.env
-/.env_test
-/static/styles/*.css
-/static
-/staticfiles
-staticfiles
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+env/
+venv/
+.env/
+.venv/
+ENV/
+
+# UV
+.uv/
+uv.lock
+
+# Django
+*.sqlite3
+db.sqlite3
+db.sqlite3-journal
+/static/
+/staticfiles/
+staticfiles/
+/mediafiles/
+static/media/
+
+# Environment variables
+.env
+.env_test
+.env.local
+.env.*.local
+
+# Testing
 .coverage
 coverage.*
-/dist
-dist
-/node_modules
-node_modules
-__pycache__
+htmlcov/
+.pytest_cache/
+.tox/
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Ruff
+.ruff_cache/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

@@ -34,7 +34,7 @@ jobs:
       - name: Setup Python and Dependencies
         uses: ./.github/actions/setup-python-dependencies
         with:
-          python-version: '3.13'
+          python-version: '3.14'
 
       - name: Run unit tests with coverage
         uses: ./.github/actions/run-test-with-pytest
