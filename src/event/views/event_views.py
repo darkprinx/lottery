@@ -5,19 +5,19 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from core.scheduled_tasks import close_active_lottery
-from lottery_event.models import LotteryEvent
-from lottery_event.serializers.lottery_event_serializers import (
-    LotteryEventReadSerializer,
-    LotteryEventWriteSerializer,
+from event.models import Event
+from event.serializers.lottery_event_serializers import (
+    EventReadSerializer,
+    EventWriteSerializer,
     LotteryWinnerSerializer,
     PurchaseLotteryBallotSerializer,
-    RegisterLotteryEventSerializer,
+    RegisterEventSerializer,
 )
 from user.serializers.user_serializers import UserSerializer
 from utils.helpers.circuit_breaker_dummy_apis import send_message
 from utils.helpers.random_number_generator_helper import generate_customized_uuid
 from utils.managers.ballot_manager import BallotManager
-from utils.managers.lottery_event_manager import LotteryEventManager
+from utils.managers.lottery_event_manager import EventManager
 from utils.managers.user_manager import UserManager
 
 logger = logging.getLogger(__name__)
@@ -45,24 +45,24 @@ class CloseLotteryView(APIView):
         return Response(status=200)
 
 
-class LotteryEventView(viewsets.ModelViewSet):
+class EventView(viewsets.ModelViewSet):
     """
     ## CRUD endpoints for Lottery Events:
     ## list, create, update, and delete.
     """
 
-    queryset = LotteryEvent.objects.all()
-    serializer_class = LotteryEventReadSerializer
+    queryset = Event.objects.all()
+    serializer_class = EventReadSerializer
 
     def get_serializer_class(self):
         if self.action in ["create", "update", "partial_update", "destroy"]:
-            return LotteryEventWriteSerializer
+            return EventWriteSerializer
         return self.serializer_class
 
 
 class RegisterLotteryView(generics.CreateAPIView):
-    serializer_class = RegisterLotteryEventSerializer
-    lottery_event_manager = LotteryEventManager()
+    serializer_class = RegisterEventSerializer
+    lottery_event_manager = EventManager()
 
     def post(self, request):
         """
@@ -104,7 +104,7 @@ class PurchaseLotteryBallotView(generics.CreateAPIView):
 
 class LotteryWinnerView(generics.ListAPIView):
     serializer_class = LotteryWinnerSerializer
-    lottery_event_manger = LotteryEventManager()
+    lottery_event_manger = EventManager()
 
     def get(self, request):
         """

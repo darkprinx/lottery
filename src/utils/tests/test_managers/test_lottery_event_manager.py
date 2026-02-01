@@ -1,14 +1,14 @@
 from django.test import TestCase
 from model_bakery import baker
 
-from lottery_event.models import LotteryEvent
-from utils.managers.lottery_event_manager import LotteryEventManager
+from event.models import Event
+from utils.managers.lottery_event_manager import EventManager
 
 
-class TestLotteryEventManager(TestCase):
+class TestEventManager(TestCase):
     def setUp(self) -> None:
-        self.lottery_event1 = baker.make(LotteryEvent, id=1, status="active")
-        self.lottery_event_manager = LotteryEventManager()
+        self.lottery_event1 = baker.make(Event, id=1, status="active")
+        self.lottery_event_manager = EventManager()
 
     def test_get_lottery_event_by_id(self):
         actual = self.lottery_event_manager.get_lottery_event_by_id(lottery_event_id=1)

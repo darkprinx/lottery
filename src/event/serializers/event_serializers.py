@@ -1,22 +1,22 @@
 from rest_framework import serializers
 
-from lottery_event.models.lottery_event import LotteryEvent
-from lottery_event.serializers.ballot_serializer import BallotMinimalSerializer
-from utils.managers.lottery_event_manager import LotteryEventManager
+from event.models.event import Event
+from event.serializers.ballot_serializer import BallotMinimalSerializer
+from utils.managers.lottery_event_manager import EventManager
 from utils.managers.user_manager import UserManager
 
 
-class LotteryEventWriteSerializer(serializers.ModelSerializer):
+class EventWriteSerializer(serializers.ModelSerializer):
     class Meta:
-        model = LotteryEvent
+        model = Event
         fields = ("id", "title", "status", "ballot_price", "prize_money")
 
 
-class LotteryEventReadSerializer(serializers.ModelSerializer):
+class EventReadSerializer(serializers.ModelSerializer):
     winning_ballot = BallotMinimalSerializer()
 
     class Meta:
-        model = LotteryEvent
+        model = Event
         fields = (
             "id",
             "title",
@@ -27,12 +27,12 @@ class LotteryEventReadSerializer(serializers.ModelSerializer):
         )
 
 
-class RegisterLotteryEventSerializer(serializers.Serializer):
+class RegisterEventSerializer(serializers.Serializer):
     user_id = serializers.IntegerField(required=True)
     lottery_event_id = serializers.IntegerField(required=True)
 
     user_manager = UserManager()
-    lottery_event_manager = LotteryEventManager()
+    lottery_event_manager = EventManager()
 
     def validate(self, data):
         user_id = data.get("user_id")
@@ -53,12 +53,12 @@ class RegisterLotteryEventSerializer(serializers.Serializer):
         return data
 
 
-class PurchaseLotteryBallotSerializer(RegisterLotteryEventSerializer):
+class PurchaseLotteryBallotSerializer(RegisterEventSerializer):
     user_id = serializers.IntegerField(required=True)
     lottery_event_id = serializers.IntegerField(required=True)
 
     user_manager = UserManager()
-    lottery_event_manager = LotteryEventManager()
+    lottery_event_manager = EventManager()
 
     def validate(self, data):
         user_id = data.get("user_id")
@@ -83,5 +83,5 @@ class LotteryWinnerSerializer(serializers.ModelSerializer):
     winning_ballot = BallotMinimalSerializer()
 
     class Meta:
-        model = LotteryEvent
+        model = Event
         fields = ("title", "prize_money", "winning_ballot")

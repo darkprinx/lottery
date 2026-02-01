@@ -1,5 +1,5 @@
-from lottery_event.models import Ballot
-from lottery_event.serializers.ballot_serializer import BallotSerializer
+from event.models import Ballot
+from event.serializers.ballot_serializer import BallotSerializer
 
 
 class BallotManager:

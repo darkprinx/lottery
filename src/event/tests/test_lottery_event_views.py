@@ -4,15 +4,15 @@ from django.test import RequestFactory, TestCase
 from django.urls import reverse
 from model_bakery import baker
 
-from lottery_event.models import LotteryEvent
-from lottery_event.views.lottery_event_views import RegisterLotteryView
+from event.models import Event
+from event.views.lottery_event_views import RegisterLotteryView
 
 
 class TestRegisterLotteryView(TestCase):
     def setUp(self) -> None:
         self.factory = RequestFactory()
         self.user = baker.make(get_user_model(), id=1)
-        self.lottery_event_object = baker.make(LotteryEvent, id=1)
+        self.lottery_event_object = baker.make(Event, id=1)
         self.request_url = reverse("register-lottery")
         self.headers = {"HTTP_Authorization": settings.CUSTOM_API_TOKEN}
 

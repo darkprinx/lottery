@@ -44,7 +44,7 @@ class CardPaymentService(BasePaymentService):
 
 
 class PaymentFactory:
-    payment_services = {  # noqa RUF012
+    payment_services = {
         "mobile_payment": MobilePaymentService,
         "card_payment": CardPaymentService,
     }

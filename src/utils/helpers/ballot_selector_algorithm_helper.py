@@ -1,7 +1,7 @@
 import random
 from abc import ABC, abstractmethod
 
-from lottery_event.models import LotteryEvent
+from event.models import Event
 
 
 class BaseStrategy(ABC):
@@ -13,7 +13,7 @@ class BaseStrategy(ABC):
 class NaiveBallotSelectorStrategy(BaseStrategy):
     def select(self, lottery_event_id):
         ballots = (
-            LotteryEvent.objects.prefetch_related("participants__purchased_ballots")
+            Event.objects.prefetch_related("participants__purchased_ballots")
             .filter(id=lottery_event_id, participants__purchased_ballots__isnull=False)
             .values_list("participants__purchased_ballots", flat=True)
             .distinct()
