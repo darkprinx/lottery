@@ -3,19 +3,19 @@ name = "lottery"
 version = "0.1.0"
 description = "Django-based lottery event management system"
 readme = "readme.md"
-requires-python = ">=3.11"
+requires-python = ">=3.14"
 dependencies = [
-    "Django==4.1.4",
-    "djangorestframework==3.14.0",
-    "drf-yasg==1.21.4",
-    "APScheduler==3.9.1.post1",
-    "model-bakery==1.9.0",
-    "pybreaker>=1.0.0",
+    "Django==5.1.5",
+    "djangorestframework==3.15.2",
+    "drf-yasg==1.21.8",
+    "APScheduler==3.10.4",
+    "model-bakery==1.19.5",
+    "pybreaker>=1.2.0",
 ]
 
 [dependency-groups]
 dev = [
-    "pytest==8.3.3",
+    "pytest==8.3.4",
     "pytest-django==4.9.0",
     "pytest-cov==7.0.0",
     "pytest-xdist>=3.6.1",
@@ -32,7 +32,7 @@ dev = [
 
 [tool.ruff]
 line-length = 88
-target-version = "py311"
+#target-version = "py314"
 exclude = [
     ".git",
     ".venv",
@@ -139,7 +139,7 @@ exclude_lines = [
 directory = "htmlcov"
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.14"
 plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
 ignore_missing_imports = true
 warn_return_any = true
