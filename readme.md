@@ -6,9 +6,10 @@ A Django-based lottery event management system where users can participate in da
 
 ### Functional Requirements & Assumptions
 
+- [x] Homepage using DRF TemplateHTMLRenderer and APIview
 - [ ] Admin users can create/update/delete lottery events manually
     - [x] From admin panel with various admin features
-    - with rest APIs. practice router based url and modelviewsets here
+  - with rest APIs. practice router based url and model viewsets here
 - [ ] A lottery event will be created automatically each day at midnight
     - do it by celery beat schedule
 - [ ] Can create users with different roles: admin, participant
