@@ -4,7 +4,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import CheckConstraint, Index, Q
 
-from common.models.base import GenericForeignKeyModel
+from common.models.base import TimestampedModel
 from common.models.comment import Comment
 from event.models.ballot import Ballot
 
@@ -20,6 +20,7 @@ Django concepts used in this file:
 - Choices: Using TextChoices for defining enumerated types for model fields.
 - Generic Relations: Establishing generic relationships to other models.
 - Audit Logging: Integrating audit logging to track changes to model instances.
+- Inline Table: Use inline table to show comments
 """
 
 
@@ -30,7 +31,7 @@ class EventStatus(models.TextChoices):
 
 
 @auditlog.register()
-class Event(GenericForeignKeyModel):
+class Event(TimestampedModel):
     title = models.CharField(max_length=64)
     status = models.CharField(
         max_length=32,

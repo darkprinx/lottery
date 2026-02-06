@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from event.models.event import Event
 from event.serializers.ballot_serializer import BallotMinimalSerializer
-from utils.managers.lottery_event_manager import EventManager
+from utils.managers.event_manager import EventManager
 from utils.managers.user_manager import UserManager
 
 

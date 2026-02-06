@@ -4,9 +4,9 @@ from rest_framework import generics, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core.scheduled_tasks import close_active_lottery
+# from core.scheduled_tasks import close_active_lottery
 from event.models import Event
-from event.serializers.lottery_event_serializers import (
+from event.serializers.event_serializers import (
     EventReadSerializer,
     EventWriteSerializer,
     LotteryWinnerSerializer,
@@ -17,7 +17,7 @@ from user.serializers.user_serializers import UserSerializer
 from utils.helpers.circuit_breaker_dummy_apis import send_message
 from utils.helpers.random_number_generator_helper import generate_customized_uuid
 from utils.managers.ballot_manager import BallotManager
-from utils.managers.lottery_event_manager import EventManager
+from utils.managers.event_manager import EventManager
 from utils.managers.user_manager import UserManager
 
 logger = logging.getLogger(__name__)
@@ -41,7 +41,7 @@ class CloseLotteryView(APIView):
     """
 
     def get(self, request):
-        close_active_lottery()
+        # close_active_lottery()
         return Response(status=200)
 
 

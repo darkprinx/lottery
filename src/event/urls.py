@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework import routers
 
-from event.views.lottery_event_views import (
+from event.views.event_views import (
     CloseLotteryView,
     EventView,
     LotteryParticipantView,

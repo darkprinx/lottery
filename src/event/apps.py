@@ -5,7 +5,5 @@ class EventsConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "event"
 
-    # def ready(self):
-    #     from core import scheduler
-    #
-    #     scheduler.start()
+    def ready(self):
+        from event.admins import event  # noqa: F401

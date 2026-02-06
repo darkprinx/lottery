@@ -2,7 +2,7 @@ from auditlog.registry import auditlog
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 
-from common.models.base import GenericForeignKeyModel
+from common.models.base import TimestampedModel
 from common.models.comment import Comment
 
 # Create your models here.
@@ -14,7 +14,7 @@ class PostStatus(models.TextChoices):
 
 
 @auditlog.register()
-class Post(GenericForeignKeyModel):
+class Post(TimestampedModel):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=100, unique=True)
     author = models.ForeignKey(
