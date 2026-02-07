@@ -24,8 +24,8 @@ A Django-based lottery event management system where users can participate in da
 - [ ] Each day at midnight the lottery event will be closed and a random lottery-winning ballot will be selected from
   all the participants.
 - [ ] All users will be able to check the winning ballot for any specific date.
-- [ ] use silk for live profiling and monitoring of the application
-
+- [x] use silk for live profiling and monitoring of the application
+- [x] use django toolbar for debugging and development specifically for sql query optimization
 ### Additional
 
 ```

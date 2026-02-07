@@ -42,7 +42,11 @@ class EventView(viewsets.ModelViewSet):
     ## list, create, update, and delete.
     """
 
-    queryset = Event.objects.all()
+    queryset = (
+        Event.objects.prefetch_related("participants")
+        .prefetch_related("comments")
+        .all()
+    )
     serializer_class = EventLinkedSerializer
     permission_classes = (IsAuthenticated,)
 

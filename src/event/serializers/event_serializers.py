@@ -13,6 +13,8 @@ this file contains multiple variations of serializers for the Event model, each 
 
 class EventLinkedSerializer(serializers.HyperlinkedModelSerializer):
     winning_ballot = BallotMinimalSerializer()
+    participants_count = serializers.SerializerMethodField()
+    comments_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Event
@@ -25,9 +27,17 @@ class EventLinkedSerializer(serializers.HyperlinkedModelSerializer):
             "prize_money",
             "winning_ballot",
             "participants",
+            "participants_count",
+            "comments_count",
             "created_at",
             "updated_at",
         )
+
+    def get_participants_count(self, obj):
+        return obj.participants.count()
+
+    def get_comments_count(self, obj):
+        return obj.comments.count()
 
 
 class EventWriteSerializer(serializers.ModelSerializer):
@@ -39,6 +49,8 @@ class EventWriteSerializer(serializers.ModelSerializer):
 class EventReadSerializer(serializers.ModelSerializer):
     winning_ballot = BallotMinimalSerializer()
     participants = UserSerializer(many=True, read_only=True)
+    participants_count = serializers.SerializerMethodField()
+    comments_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Event
@@ -50,7 +62,15 @@ class EventReadSerializer(serializers.ModelSerializer):
             "prize_money",
             "winning_ballot",
             "participants",
+            "participants_count",
+            "comments_count",
         )
+
+    def get_participants_count(self, obj):
+        return obj.participants.count()
+
+    def get_comments_count(self, obj):
+        return obj.comments.count()
 
 
 class RegisterEventSerializer(serializers.Serializer):

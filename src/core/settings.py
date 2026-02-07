@@ -32,6 +32,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1", "*"]
 
+# Internal IPs for Django Debug Toolbar
+INTERNAL_IPS = [
+    "127.0.0.1",
+    "localhost",
+]
+
 # Application definition
 DEFAULT_APPS = (
     "django.contrib.admin",
@@ -42,7 +48,14 @@ DEFAULT_APPS = (
     "django.contrib.staticfiles",
 )
 
-EXTERNAL_APPS = ("rest_framework", "drf_yasg", "auditlog", "drf_spectacular")
+EXTERNAL_APPS = (
+    "rest_framework",
+    "drf_yasg",
+    "auditlog",
+    "drf_spectacular",
+    "debug_toolbar",
+    "silk",
+)
 
 LOCAL_APPS = ("user", "event", "payment", "post", "common")
 
@@ -52,12 +65,14 @@ breaker = pybreaker.CircuitBreaker(fail_max=4, reset_timeout=5)
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "silk.middleware.SilkyMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "core.urls"

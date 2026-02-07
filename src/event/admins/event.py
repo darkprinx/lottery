@@ -31,8 +31,8 @@ class EventAdmin(admin.ModelAdmin):
     search_fields = ("title",)
     ordering = ("-created_at",)
     readonly_fields = ("winning_ballot", "participant_count", "comments_count")
-    exclude = ("participants",)
     inlines = [CommentInline]
+    filter_horizontal = ("participants",)
 
     @admin.display(description="Participants")
     def participant_count(self, obj):
