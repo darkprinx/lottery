@@ -40,7 +40,7 @@ class Event(TimestampedModel):
     )
     ballot_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     prize_money = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    participants = models.ManyToManyField(User, related_name="participants", blank=True)
+    participants = models.ManyToManyField(User, related_name="events", blank=True)
     winning_ballot = models.OneToOneField(
         Ballot,
         related_name="winning_ballot",

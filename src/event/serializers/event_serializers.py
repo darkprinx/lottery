@@ -1,3 +1,5 @@
+import random
+
 from rest_framework import serializers
 
 from event.models.event import Event
@@ -13,8 +15,13 @@ this file contains multiple variations of serializers for the Event model, each 
 
 class EventLinkedSerializer(serializers.HyperlinkedModelSerializer):
     winning_ballot = BallotMinimalSerializer()
-    participants_count = serializers.SerializerMethodField()
-    comments_count = serializers.SerializerMethodField()
+    participants = serializers.SerializerMethodField()
+    participant_count_from_qs = serializers.IntegerField(read_only=True)
+    comment_count_from_serializer_method = serializers.SerializerMethodField(
+        read_only=True
+    )
+    all_comment_count_from_qs = serializers.IntegerField(read_only=True)
+    first_comment = serializers.CharField(read_only=True)
 
     class Meta:
         model = Event
@@ -26,17 +33,22 @@ class EventLinkedSerializer(serializers.HyperlinkedModelSerializer):
             "ballot_price",
             "prize_money",
             "winning_ballot",
+            "participant_count_from_qs",
             "participants",
-            "participants_count",
-            "comments_count",
+            "comment_count_from_serializer_method",
+            "all_comment_count_from_qs",
+            "first_comment",
             "created_at",
             "updated_at",
         )
 
-    def get_participants_count(self, obj):
-        return obj.participants.count()
+    def get_participants(self, obj):
+        return {
+            "count_from_serializer_method": obj.participants.count(),
+            "random_value": random.random(),
+        }
 
-    def get_comments_count(self, obj):
+    def get_comment_count_from_serializer_method(self, obj):
         return obj.comments.count()
 
 

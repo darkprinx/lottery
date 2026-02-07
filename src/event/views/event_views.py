@@ -1,10 +1,15 @@
 import logging
 
+from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.models import ContentType
+from django.db.models import Count, OuterRef, Subquery
 from rest_framework import generics, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from common.models.comment import Comment
 
 # from core.scheduled_tasks import close_active_lottery
 from event.models import Event
@@ -42,13 +47,71 @@ class EventView(viewsets.ModelViewSet):
     ## list, create, update, and delete.
     """
 
-    queryset = (
-        Event.objects.prefetch_related("participants")
-        .prefetch_related("comments")
-        .all()
-    )
+    queryset = Event.objects.all()
     serializer_class = EventLinkedSerializer
     permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        # option 1
+        # qs = qs.prefetch_related("participants", "comments")
+        # qs = qs.annotate(
+        #     participant_count_from_qs=Count("participants", distinct=True),
+        #     all_comment_count_from_qs=Count("comments", distinct=True),
+        # )
+
+        """
+        option 2:
+        The concept is explained how it's working.
+        1. For participant_count_from_qs:
+           - We filter the User model to find users who are participants of the event (using events=OuterRef("pk")).
+           - The values "events" is used to group the results by event, and then we annotate the count of events for each user.
+           - Finally, we select the count value to get the total number of participants for each event.
+        2. For all_comment_count_from_qs:
+            - We filter the Comment model to find comments related to the event (using object_id=OuterRef("pk") and content_type for Event).
+            - The values "object_id" is used to group the results by event, and then we annotate the count of comments for each event.
+        """
+        User = get_user_model()
+        qs = qs.prefetch_related("participants", "comments").annotate(
+            participant_count_from_qs=Subquery(
+                User.objects.filter(events=OuterRef("pk"))
+                .values("events")
+                .annotate(count=Count("events"))
+                .values("count")
+            ),
+            all_comment_count_from_qs=Subquery(
+                Comment.objects.filter(
+                    object_id=OuterRef("pk"),
+                    content_type=ContentType.objects.get_for_model(Event),
+                )
+                .values("object_id")
+                .annotate(count=Count("object_id"))
+                .values("count")
+            ),
+            first_comment=Subquery(
+                Comment.objects.filter(
+                    object_id=OuterRef("pk"),
+                    content_type=ContentType.objects.get_for_model(Event),
+                )
+                .order_by("created_at")
+                .values("content")[:1]
+            ),
+        )
+
+        return qs
+
+    def get_serializer_class(self):
+        if self.action in ["create", "update", "partial_update", "destroy"]:
+            return EventWriteSerializer
+        return self.serializer_class
+
+    def get_permissions(self):
+        if self.action in ["create", "update", "partial_update", "destroy"]:
+            return [IsAdminUser()]
+        return []
+
+    # custom APIs
+    # todo: add one view with bulk create from csv file, only for admin users with parser classes
 
     # export event data file, only for admin users
     @action(
@@ -62,18 +125,6 @@ class EventView(viewsets.ModelViewSet):
         events = self.get_queryset()
         serializer = self.get_serializer(events, many=True)
         return Response(serializer.data)
-
-    # todo: add one view with bulk create from csv file, only for admin users with parser classes
-
-    def get_serializer_class(self):
-        if self.action in ["create", "update", "partial_update", "destroy"]:
-            return EventWriteSerializer
-        return self.serializer_class
-
-    def get_permissions(self):
-        if self.action in ["create", "update", "partial_update", "destroy"]:
-            return [IsAdminUser()]
-        return []
 
 
 class RegisterLotteryView(generics.CreateAPIView):
