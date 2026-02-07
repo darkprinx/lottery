@@ -42,7 +42,7 @@ DEFAULT_APPS = (
     "django.contrib.staticfiles",
 )
 
-EXTERNAL_APPS = ("rest_framework", "drf_yasg", "auditlog")
+EXTERNAL_APPS = ("rest_framework", "drf_yasg", "auditlog", "drf_spectacular")
 
 LOCAL_APPS = ("user", "event", "payment", "post", "common")
 

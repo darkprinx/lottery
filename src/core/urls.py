@@ -22,6 +22,9 @@ from core.swagger import schema_view
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("common.urls")),
+    path(
+        "api/auth/", include("rest_framework.urls", namespace="rest_framework")
+    ),  # this adds /login and /logout endpoints for the browsable API
     path("api/users/", include("user.urls")),
     path("api/events/", include("event.urls")),
     path("api/payments/", include("payment.urls")),

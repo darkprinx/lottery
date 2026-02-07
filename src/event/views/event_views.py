@@ -1,12 +1,15 @@
 import logging
 
 from rest_framework import generics, viewsets
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 # from core.scheduled_tasks import close_active_lottery
 from event.models import Event
 from event.serializers.event_serializers import (
+    EventLinkedSerializer,
     EventReadSerializer,
     EventWriteSerializer,
     LotteryWinnerSerializer,
@@ -14,24 +17,12 @@ from event.serializers.event_serializers import (
     RegisterEventSerializer,
 )
 from user.serializers.user_serializers import UserSerializer
-from utils.helpers.circuit_breaker_dummy_apis import send_message
 from utils.helpers.random_number_generator_helper import generate_customized_uuid
 from utils.managers.ballot_manager import BallotManager
 from utils.managers.event_manager import EventManager
 from utils.managers.user_manager import UserManager
 
 logger = logging.getLogger(__name__)
-
-
-class PingView(APIView):
-    """
-    ## This checks application health with a ping
-    ## and returns a response with pong.
-    """
-
-    def get(self, request):
-        content = {"message": "Pong!", "data": send_message()}
-        return Response(content)
 
 
 class CloseLotteryView(APIView):
@@ -52,12 +43,33 @@ class EventView(viewsets.ModelViewSet):
     """
 
     queryset = Event.objects.all()
-    serializer_class = EventReadSerializer
+    serializer_class = EventLinkedSerializer
+    permission_classes = (IsAuthenticated,)
+
+    # export event data file, only for admin users
+    @action(
+        detail=False,
+        methods=["get"],
+        url_path="export-csv",
+        serializer_class=EventReadSerializer,
+        permission_classes=[IsAdminUser],
+    )
+    def export_csv(self, request, pk=None):
+        events = self.get_queryset()
+        serializer = self.get_serializer(events, many=True)
+        return Response(serializer.data)
+
+    # todo: add one view with bulk create from csv file, only for admin users with parser classes
 
     def get_serializer_class(self):
         if self.action in ["create", "update", "partial_update", "destroy"]:
             return EventWriteSerializer
         return self.serializer_class
+
+    def get_permissions(self):
+        if self.action in ["create", "update", "partial_update", "destroy"]:
+            return [IsAdminUser()]
+        return []
 
 
 class RegisterLotteryView(generics.CreateAPIView):

@@ -2,8 +2,32 @@ from rest_framework import serializers
 
 from event.models.event import Event
 from event.serializers.ballot_serializer import BallotMinimalSerializer
+from user.serializers.user_serializers import UserSerializer
 from utils.managers.event_manager import EventManager
 from utils.managers.user_manager import UserManager
+
+"""
+this file contains multiple variations of serializers for the Event model, each serving a different purpose
+"""
+
+
+class EventLinkedSerializer(serializers.HyperlinkedModelSerializer):
+    winning_ballot = BallotMinimalSerializer()
+
+    class Meta:
+        model = Event
+        fields = (
+            "id",
+            "url",
+            "title",
+            "status",
+            "ballot_price",
+            "prize_money",
+            "winning_ballot",
+            "participants",
+            "created_at",
+            "updated_at",
+        )
 
 
 class EventWriteSerializer(serializers.ModelSerializer):
@@ -14,6 +38,7 @@ class EventWriteSerializer(serializers.ModelSerializer):
 
 class EventReadSerializer(serializers.ModelSerializer):
     winning_ballot = BallotMinimalSerializer()
+    participants = UserSerializer(many=True, read_only=True)
 
     class Meta:
         model = Event
@@ -24,6 +49,7 @@ class EventReadSerializer(serializers.ModelSerializer):
             "ballot_price",
             "prize_money",
             "winning_ballot",
+            "participants",
         )
 
 

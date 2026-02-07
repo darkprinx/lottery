@@ -6,17 +6,16 @@ from event.views.event_views import (
     EventView,
     LotteryParticipantView,
     LotteryWinnerView,
-    PingView,
     PurchaseLotteryBallotView,
     RegisterLotteryView,
 )
 
-lottery_router = routers.DefaultRouter()
-lottery_router.register("", EventView)
+# Routers
+router = routers.DefaultRouter()
+router.register("", EventView)
 
 
 urlpatterns = [
-    path("ping/", PingView.as_view(), name="ping"),
     path(
         "close-active-lotteries/",
         CloseLotteryView.as_view(),
@@ -36,4 +35,4 @@ urlpatterns = [
     ),
 ]
 
-urlpatterns += lottery_router.urls
+urlpatterns += router.urls

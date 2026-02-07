@@ -9,4 +9,4 @@ class UserManager:
         return User.objects.filter(pk=user_id).exists()
 
     def get_participants_of_lottery_event(self, lottery_event_id):
-        return User.objects.filter(registered_lotteries=lottery_event_id).all()
+        return User.objects.filter(participants=lottery_event_id).all()
