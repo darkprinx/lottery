@@ -12,8 +12,6 @@ A Django-based lottery event management system where users can participate in da
     - [x] From admin panel with various admin features
   - [x] with rest APIs. practice router based url and model viewsets here
   - [x] add one custom action url for exporting data only for admin user
-- [ ] A lottery event will be created automatically each day at midnight
-    - do it by celery beat schedule
 - [ ] Can create users with different roles: admin, participant
 - [ ] Admin users can view all lottery events list with participants(FK) & comments(GFK) count
     - [x] With SerializerMethodField

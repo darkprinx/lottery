@@ -1,8 +1,10 @@
 import logging
+import os
 
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Count, OuterRef, Subquery
+from django.http import HttpResponse
 from rest_framework import generics, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
@@ -125,6 +127,44 @@ class EventView(viewsets.ModelViewSet):
         events = self.get_queryset()
         serializer = self.get_serializer(events, many=True)
         return Response(serializer.data)
+
+    @action(detail=False, methods=["get"], url_path="download-file")
+    def download_file(self, request, _pk=None):
+        """
+        example api for downloading files from server, you can replace the file handling logic with your actual implementation.
+        This api has been created for security practice.
+        Vulnerability:
+        If you directly use filename input like ../../../../etc/passwd to access sensitive files on the server, it can lead to a path traversal attack.
+
+        Prevention/best practices:
+        1. Use an Allow list: Only allow access to files that are explicitly permitted.
+        2. Validate and sanitize input: Ensure that any user input used in file paths is properly validated and sanitized to prevent malicious input.
+        """
+
+        BASE_DIR = "/var/tmp/"
+        filename = request.query_params.get("filename")
+
+        # approach 1
+        # ALLOWED_FILES = {"text": "text.txt"}
+        # if filename not in ALLOWED_FILES:
+        #     return Response({"error": "Invalid file key"}, status=400)
+        # filepath = os.path.join(BASE_DIR, filename)
+
+        # approach 2
+        filepath = os.path.join(BASE_DIR, filename)
+        filepath = os.path.abspath(filepath)
+        if not filepath.startswith(BASE_DIR):
+            return Response({"error": "Invalid file path"}, status=403)
+
+        try:
+            with open(filepath, "rb") as file:
+                response = HttpResponse(
+                    file.read(), content_type="application/octet-stream"
+                )
+                # response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+                return response
+        except FileNotFoundError:
+            return Response({"error": "File not found"}, status=404)
 
 
 class RegisterLotteryView(generics.CreateAPIView):
